@@ -104,8 +104,8 @@ vector<vector<double>> TrajectoryPlannerWIP::getNextPathTrajectory(double start_
   vector<double> nextEndpoint;
   double target_speed;
 
-  if (ref_speed > 22) {
-    target_speed = 22;
+  if (ref_speed > 19) {
+    target_speed = 19;
   } else if (ref_speed < 0) {
     target_speed = 0;
   } else {
@@ -116,23 +116,25 @@ vector<vector<double>> TrajectoryPlannerWIP::getNextPathTrajectory(double start_
   
   //cout << "Acceleration : "  << acceleration << endl;
 
-  if (acceleration > 10) {
-    target_speed = 10 * Time + current_speed - 1;
-  } else if (acceleration < -10) {
-    target_speed = -10 * Time + current_speed + 1;
+  if (acceleration > 8) {
+    target_speed = current_speed + 8;
+  } else if (acceleration < -8) {
+    target_speed = current_speed - 8;
   }
 
-  nextEndpoint = predictNextEndpoint(start_s , start_d , target_lane , current_speed , target_speed , Time);
-  
+
   vector<double> coeffs_s;
   vector<double> coeffs_d;
+  int numberOfPoints = Time * 50 + 1;
 
   if (start_s_JMT[0] == -1) {
     start_s_JMT = {start_s,0,0};
     start_d_JMT = {start_d, 0 , 0};
+    nextEndpoint = predictNextEndpoint(start_s , start_d , target_lane , current_speed , target_speed , Time);
   } else {
     start_s_JMT = {end_s_JMT[0],end_s_JMT[1],end_s_JMT[2]};
     start_d_JMT = {end_d_JMT[0], end_d_JMT[1] , end_d_JMT[2]};
+    nextEndpoint = predictNextEndpoint(start_s_JMT[0] , start_d_JMT[0] , target_lane , current_speed , target_speed , Time);
   }
   
 
@@ -141,11 +143,12 @@ vector<vector<double>> TrajectoryPlannerWIP::getNextPathTrajectory(double start_
   
   //cout << "start_s = " << start_s << "  |  target_speed = " << target_speed << "  | ACC = " << acceleration << endl;
   //cout << "start_d = " << start_d << "  |  end_d = " << nextEndpoint[1] << endl;
-  cout << "start_s = " << start_s_JMT[0] << "  |  start_s_dot = " <<  start_s_JMT[1] << "  | start_s_dot_dot = " <<  start_s_JMT[2] << endl;
-  cout << "end_s = " << end_s_JMT[0] << "  |  end_s_dot = " <<  end_s_JMT[1] << "  | end_s_dot_dot = " <<  end_s_JMT[2] << endl;
+
+  //cout << "start_s = " << start_s_JMT[0] << "  |  start_s_dot = " <<  start_s_JMT[1] << "  | start_s_dot_dot = " <<  start_s_JMT[2] << endl;
+  //cout << "end_s = " << end_s_JMT[0] << "  |  end_s_dot = " <<  end_s_JMT[1] << "  | end_s_dot_dot = " <<  end_s_JMT[2] << endl;
   
-  cout << "start_d = " << start_d_JMT[0] << "  |  start_d_dot = " <<  start_d_JMT[1] << "  | start_d_dot_dot = " <<  start_d_JMT[2] << endl;
-  cout << "end_d = " << end_d_JMT[0] << "  |  end_d_dot = " <<  end_d_JMT[1] << "  | end_d_dot_dot = " <<  end_d_JMT[2] << endl;
+  //cout << "start_d = " << start_d_JMT[0] << "  |  start_d_dot = " <<  start_d_JMT[1] << "  | start_d_dot_dot = " <<  start_d_JMT[2] << endl;
+  //cout << "end_d = " << end_d_JMT[0] << "  |  end_d_dot = " <<  end_d_JMT[1] << "  | end_d_dot_dot = " <<  end_d_JMT[2] << endl;
 
   coeffs_s = this->JMT(start_s_JMT,end_s_JMT,Time);
   coeffs_d = this->JMT(start_d_JMT,end_d_JMT,Time);
@@ -158,7 +161,7 @@ vector<vector<double>> TrajectoryPlannerWIP::getNextPathTrajectory(double start_
   vector<double> next_s_vals;
   vector<double> next_d_vals;
   
-  for(int i = 1 ; i < 100 ; i++) {
+  for(int i = 1 ; i < numberOfPoints ; i++) {
     t += steps;
     double next_s_val = coeffs_s[0] + coeffs_s[1]*t + coeffs_s[2]*pow(t,2.0) 
                         + coeffs_s[3]*pow(t,3.0) + coeffs_s[4]*pow(t,4.0) + coeffs_s[5]*pow(t,5.0);
@@ -175,12 +178,12 @@ vector<vector<double>> TrajectoryPlannerWIP::getNextPathTrajectory(double start_
   
   for(int i = 0 ; i < next_s_vals.size() ; i++) {
     vector<double> xy;
-    xy = getXY(next_s_vals[i],next_d_vals[i]);
+    xy = getXY_JMT(next_s_vals[i],next_d_vals[i]);
     next_x_vals.push_back(xy[0]);
     next_y_vals.push_back(xy[1]);
 
     //cout << "x: " << xy[0] << " | y:" << xy[1] << endl;
-    cout << "s: " << next_s_vals[i] << " | d:" << next_d_vals[i] << endl;
+    //cout << "s: " << next_s_vals[i] << " | d:" << next_d_vals[i] << endl;
   }
 
   next_vals[0] = next_x_vals;
@@ -204,7 +207,7 @@ vector<vector<double>> TrajectoryPlannerWIP::mergeTrajectories(vector<double> pr
         result_y.push_back(previous_path_y[i]);
     }
 
-    for (int i = 0; i < newTraj[0].size() && (i+previous_path_x.size()) < 50 ; i++) {
+    for (int i = 0; i < newTraj[0].size(); i++) {
         result_x.push_back(newTraj[0][i]);
         result_y.push_back(newTraj[1][i]);
     }
@@ -213,7 +216,7 @@ vector<vector<double>> TrajectoryPlannerWIP::mergeTrajectories(vector<double> pr
     for (int i = 0; i < newTraj[0].size() ; i++) {
       result_x.push_back(newTraj[0][i]);
       result_y.push_back(newTraj[1][i]);
-      cout << "adding point x: " << newTraj[0][i] << " | y:" << newTraj[0][i] << endl;
+      //cout << "adding point x: " << newTraj[0][i] << " | y:" << newTraj[0][i] << endl;
     }
   }
   
@@ -221,10 +224,10 @@ vector<vector<double>> TrajectoryPlannerWIP::mergeTrajectories(vector<double> pr
   result.push_back(result_x);
   result.push_back(result_y);
 
-  cout << "Merged Trajectory consists of  " << result_x.size()  << " points " << endl;
+  //cout << "Merged Trajectory consists of  " << result_x.size()  << " points " << endl;
 
   for (int i = 0; i < result[0].size() ; i++) {
-    cout << "Merged Trajectory: x = " << result[0][i]  << " | y = " << result[1][i] << endl;
+    //cout << "Merged Trajectory: x = " << result[0][i]  << " | y = " << result[1][i] << endl;
   }
 
 

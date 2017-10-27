@@ -144,10 +144,15 @@ int main() {
             if (previous_path_x.size()==0 && counter == 0) {
               next_vals = trajWIP.getNextPathTrajectory(car_s, car_d,lane , 0, ref_vel, 2);
               next_vals = trajWIP.mergeTrajectories(previous_path_x, previous_path_y, end_path_s, end_path_d, next_vals);
-            } else if (previous_path_x.size() < 80) {
-              cout << "*******************************************" << endl;
-              next_vals = trajWIP.getNextPathTrajectory(car_s, car_d,lane , 0, ref_vel, 2);
+            } else if (previous_path_x.size() < 20) {
+              int time = 1;
+              if (planner.stm_lane_change_completed() == false) {
+                time = 3;
+              }
+
+              next_vals = trajWIP.getNextPathTrajectory(car_s, car_d,lane , planner.egoVehicle.getSpeed() , ref_vel, time);
               next_vals = trajWIP.mergeTrajectories(previous_path_x, previous_path_y, end_path_s, end_path_d, next_vals);
+
 //              cout << "exiting...." << endl;
 //              exit(0);
             } else {
@@ -157,11 +162,11 @@ int main() {
             next_vals = trajectory.calcTrajFromQA(planner.egoVehicle, ref_vel, lane);
           }
 
-          counter++;
-          if (counter > 5) {
-            cout << "exiting...." << endl;
-            exit(0);
-          }
+          // counter++;
+          // if (counter > 1000) {
+          //   cout << "exiting...." << endl;
+          //   exit(0);
+          // }
      
 
           t = tmr.elapsed();

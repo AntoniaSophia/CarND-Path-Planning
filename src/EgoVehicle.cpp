@@ -15,7 +15,16 @@ EgoVehicle::EgoVehicle() {
 }
 
 double EgoVehicle::getSpeed() { 
+  // if (previous_path_x.size() > 2 && this->speed_from_sim > 10) {
+  //   double dx = previous_path_x[0]-previous_path_x[1];
+  //   double dy = previous_path_y[0]-previous_path_y[1];
+  //   return sqrt(pow(dx,2)+pow(dy,2));
+  // } else {
+  //   return this->speed_from_sim; 
+  // }
+
   return this->speed_from_sim; 
+  
 }
 
 double EgoVehicle::getSpeed_x() { 
