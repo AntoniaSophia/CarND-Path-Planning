@@ -22,7 +22,6 @@
 
 #include "AbstractVehicle.h"
 #include <algorithm>
-#include <math.h>
 #include "helper.h"
 
 using namespace std;

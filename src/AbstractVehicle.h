@@ -25,6 +25,7 @@
 #include <string>
 #include <vector>
 #include "json.hpp"
+#include <math.h>
 
 using nlohmann::json;
 

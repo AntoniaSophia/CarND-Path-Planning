@@ -1,39 +1,93 @@
+/*
+    Copyright (c) 2017 Antonia Reiter
+
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the "Software"),
+    to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+    OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+    OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 #include "helper.h"
-#include <algorithm>
-#include <math.h>
-#include <vector>
 
 #include "EgoVehicle.h"
 
-using namespace std;
+#include "spdlog/spdlog.h"
+
+using std::vector;
 using nlohmann::json;
 
+/**
+ * @brief 
+ * 
+ */
 EgoVehicle::EgoVehicle() {
-  //this->id = "EGO"; 
   this->id = -1; 
   this->speed_from_sim = -1;
 }
 
+/**
+ * @brief 
+ * 
+ * @return double 
+ */
 double EgoVehicle::getSpeed() { 
   return this->speed_from_sim; 
 }
 
+/**
+ * @brief 
+ * 
+ * @return double 
+ */
 double EgoVehicle::getSpeed_x() { 
   return this->speed_from_sim * cos(this->yaw); 
 }
 
+/**
+ * @brief 
+ * 
+ * @return double 
+ */
 double EgoVehicle::getSpeed_y() { 
   return this->speed_from_sim * sin(this->yaw); 
 }
 
+/**
+ * @brief 
+ * 
+ * @param refSpeed 
+ */
 void EgoVehicle::setRefSpeed(double refSpeed) { 
   this->refSpeed = refSpeed; 
 }
 
+/**
+ * @brief 
+ * 
+ * @return double 
+ */
 double EgoVehicle::getRefSpeed() { 
   return this->refSpeed; 
 }
 
+/**
+ * @brief 
+ * 
+ * @param j 
+ */
 void EgoVehicle::update(json j) {
   this->frenet_s = j["s"];
   this->frenet_d = j["d"];
@@ -55,13 +109,23 @@ void EgoVehicle::update(json j) {
     this->previous_path_y.push_back(j["previous_path_y"][i]);
 }
 
-  
+/**
+ * @brief 
+ * 
+ * @param predictionHorizon 
+ */
 void EgoVehicle::calculatePredictions(int predictionHorizon) {
   // first clear all current prediction
   predictions.clear();
   cout << "size of EgoVehicle predictions : "  << predictions.size() << endl;
 }
 
+/**
+ * @brief 
+ * 
+ * @param second 
+ * @return vector<double> 
+ */
 vector<double> EgoVehicle::getPrediction(int second) {
   if (second == 0) {
     vector<double> result;
@@ -78,6 +142,11 @@ vector<double> EgoVehicle::getPrediction(int second) {
   return result;
 }
 
+/**
+ * @brief 
+ * 
+ * @return string 
+ */
 string EgoVehicle::display() {
   string result = "";
 
@@ -92,14 +161,6 @@ string EgoVehicle::display() {
   result += to_string(this->getLane());
   result += " | size(previous_path) = ";
   result += to_string(previous_path_x.size());
-
-  // for (int i = 0; i < previous_path_x.size(); i++) {
-  //   result += "x = ";
-  //   result += to_string(this->previous_path_x[i]);
-  //   result += " ; y = ";
-  //   result += to_string(this->previous_path_y[i]);
-  //   result += " | ";
-  // }
 
   return result;
 }

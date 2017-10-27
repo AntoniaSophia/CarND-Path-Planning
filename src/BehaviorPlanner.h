@@ -22,8 +22,6 @@
 
 #pragma once
 
-#include "AbstractVehicle.h"
-
 #include "EgoVehicle.h"
 #include "SensorObject.h"
 

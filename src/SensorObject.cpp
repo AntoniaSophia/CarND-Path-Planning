@@ -1,35 +1,79 @@
-#include "helper.h"
+/*
+    Copyright (c) 2017 Antonia Reiter
+
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the "Software"),
+    to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+    OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+    OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 #include <algorithm>
-#include <math.h>
-#include <vector>
-
 #include "SensorObject.h"
+#include "helper.h"
+#include "spdlog/spdlog.h"
 
-using namespace std;
+using std::vector;
+using std::string;
 using nlohmann::json;
 
+/**
+ * @brief 
+ * 
+ */
 SensorObject::SensorObject() {
   this->currentLane = -1;
   this->lastLane = -1;
 
 }
 
-// returns speed in unit meters/second
+/**
+ * @brief 
+ * 
+ * @return double speed in unit meters/second
+ */
 double SensorObject::getSpeed() { 
   return sqrt(pow(this->speed_x,2.0) + pow(this->speed_y,2.0)); 
 }
 
+/**
+ * @brief 
+ * 
+ * @return double 
+ */
 double SensorObject::getSpeed_x() { 
   return this->speed_x;
 }
 
+/**
+ * @brief 
+ * 
+ * @return double 
+ */
 double SensorObject::getSpeed_y() { 
   return this->speed_y;
 }
 
-//[car's unique ID, car's x position in map coordinates, car's y position in map coordinates, 
-// car's x velocity in m/s, car's y velocity in m/s, car's s position in frenet coordinates, 
-// car's d position in frenet coordinates. 
+/**
+ * @brief 
+ * [car's unique ID, car's x position in map coordinates, car's y position in map coordinates, 
+ * car's x velocity in m/s, car's y velocity in m/s, car's s position in frenet coordinates, 
+ * car's d position in frenet coordinates. 
+ * 
+ * @param j 
+ */
 void SensorObject::update(json j) {
   this->id = j[0];
   this->cartesian_x = j[1];
@@ -56,7 +100,7 @@ void SensorObject::update(json j) {
     this->currentLane = this->getLane();
   } else if (this->lastLane != -1) {
     if (this->getLane() != this->lastLane) {
-      cout << "Lane change of Object " << this->id << " from lane " << this->lastLane << " to lane " << this->getLane() << endl;
+      spdlog::get("console")->debug("Lane change of Object {} from lane {} to lane {}", this->id, this->lastLane, this->getLane());
       this->lastLane = this->getLane();
     }
   }
@@ -69,6 +113,11 @@ void SensorObject::update(json j) {
   //std::cout << "Time for calculating predictions in (ms) " <<  t/1e-6 << endl;
 }
 
+/**
+ * @brief 
+ * 
+ * @param predictionHorizon 
+ */
 void SensorObject::calculatePredictions(int predictionHorizon) {
   // first clear all current prediction
   predictions.clear();
@@ -113,6 +162,12 @@ void SensorObject::calculatePredictions(int predictionHorizon) {
   }
 }
 
+/**
+ * @brief 
+ * 
+ * @param second 
+ * @return vector<double> 
+ */
 vector<double> SensorObject::getPrediction(int second) {
   if (second == 0) {
     vector<double> result;
@@ -127,7 +182,7 @@ vector<double> SensorObject::getPrediction(int second) {
 
   if (predictions.size() < second) {
     // TODO: proper error handling !!
-    cout << "Error in getting predictions -- too less predictions available" << endl;
+    spdlog::get("console")->error("Error in getting predictions -- too less predictions available");
     exit(0);
   }
 
