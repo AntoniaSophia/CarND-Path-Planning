@@ -1,24 +1,16 @@
 #include "Eigen-3.3/Eigen/Core"
 #include "Eigen-3.3/Eigen/QR"
-#include "json.hpp"
-#include "spline.h"
 #include <chrono>
-#include <fstream>
-#include <iostream>
-#include <math.h>
 #include <thread>
 #include <uWS/uWS.h>
-#include <vector>
-#include "AbstractVehicle.h"
-#include "EgoVehicle.h"
-#include "SensorObject.h"
 #include "BehaviorPlanner.h"
 #include "TrajectoryPlanner.h"
 #include "TrajectoryPlannerWIP.h"
 #include "helper.h"
 #include "spdlog/spdlog.h"
 
-using namespace std;
+using std::vector;
+using std::string;
 
 // for convenience
 using json = nlohmann::json;
