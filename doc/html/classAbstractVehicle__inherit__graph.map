@@ -1,4 +1,0 @@
-<map id="AbstractVehicle" name="AbstractVehicle">
-<area shape="rect" id="node2" href="$classEgoVehicle.html" title="EgoVehicle" alt="" coords="5,80,93,107"/>
-<area shape="rect" id="node3" href="$classSensorObject.html" title="SensorObject" alt="" coords="117,80,219,107"/>
-</map>
