@@ -1,0 +1,250 @@
+\hypertarget{classBehaviorPlanner}{}\section{Behavior\+Planner Class Reference}
+\label{classBehaviorPlanner}\index{Behavior\+Planner@{Behavior\+Planner}}
+
+
+{\ttfamily \#include $<$Behavior\+Planner.\+h$>$}
+
+
+
+Collaboration diagram for Behavior\+Planner\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=176pt]{classBehaviorPlanner__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classBehaviorPlanner_aef7c36cbc0cb70964a4e354037ed27a1}{Behavior\+Planner} (int initial\+Lane)
+\item 
+double \hyperlink{classBehaviorPlanner_aec0fc286b925dcc751af3c6caf3fdef9}{evaluate\+Situation} ()
+\item 
+double \hyperlink{classBehaviorPlanner_af0d483ed1b5e466fea8e94e3cfe62785}{evaluate\+Situation} (vector$<$ double $>$ ego\+Prediction, int prediction\+Horizon)
+\item 
+vector$<$ double $>$ \hyperlink{classBehaviorPlanner_a3a4c41036d3094e28f6b8f63b919e985}{predict\+Situation} (int prediction\+Horizon)
+\item 
+double \hyperlink{classBehaviorPlanner_ac786fd6c315da122b9269e2ef49b988d}{evaluate\+Lane} (vector$<$ double $>$ ego\+Prediction)
+\item 
+double \hyperlink{classBehaviorPlanner_aee55c3bbfbec8ab034069f15acfb40a6}{evaluate\+Safety\+Distance} (vector$<$ double $>$ ego\+Prediction, vector$<$ double $>$ object\+Prediction)
+\item 
+double \hyperlink{classBehaviorPlanner_acc2e5ddab8cd80c4fd789b08fcf60f5e}{evaluate\+Speed} (vector$<$ double $>$ ego\+Prediction, double ref\+Speed)
+\item 
+double \hyperlink{classBehaviorPlanner_aff22cd158b0d8a748e16eb4b9720d7a9}{evaluate\+Frenet\+\_\+d} (vector$<$ double $>$ ego\+Prediction)
+\item 
+int \hyperlink{classBehaviorPlanner_a833375362e34ebaeaff47005cd0bed6d}{evaluate\+Free\+Lane\+Bonus} (vector$<$ double $>$ ego\+Prediction, vector$<$ double $>$ object\+Prediction)
+\item 
+std\+::map$<$ double, \hyperlink{classSensorObject}{Sensor\+Object} $>$ \hyperlink{classBehaviorPlanner_ad45a4d61f54fde513d189734ff5b5899}{get\+Sensor\+Objects} ()
+\item 
+vector$<$ double $>$ \hyperlink{classBehaviorPlanner_a1e4a2c4125916f7533295982350da1d3}{get\+Maneuvr\+Data\+For\+Trajectory} (vector$<$ double $>$ proposed\+Path)
+\item 
+bool \hyperlink{classBehaviorPlanner_ace8509db32f1ee3ee4a178759b3fb32c}{stm\+\_\+lane\+\_\+change\+\_\+completed} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::map$<$ double, \hyperlink{classSensorObject}{Sensor\+Object} $>$ \hyperlink{classBehaviorPlanner_a0e7463db7467db3a4fe2e5eff7490d90}{sensor\+Objects}
+\item 
+\hyperlink{classEgoVehicle}{Ego\+Vehicle} \hyperlink{classBehaviorPlanner_a9dc8174e496e0ccf1d68bedec5b8fdb2}{ego\+Vehicle}
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{classBehaviorPlanner_ac3c4ecf02aa9deb5a0f955078090e3fd}{stm\+\_\+is\+Ready\+For\+Lane\+Change} ()
+\item 
+void \hyperlink{classBehaviorPlanner_aa4299becc244fb5f164921711da79fa5}{stm\+\_\+initiate\+Lane\+Change} (int target\+Lane)
+\item 
+vector$<$ vector$<$ vector$<$ double $>$ $>$ $>$ \hyperlink{classBehaviorPlanner_ae839573203455d697946581bbf58e662}{iterate\+Predictions} (vector$<$ double $>$ start, vector$<$ vector$<$ double $>$$>$ history, int prediction\+Horizon)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classBehaviorPlanner_a10df7163fdc6a3830a63cdf8a76b9359}{stm\+\_\+target\+\_\+lane}
+\item 
+bool \hyperlink{classBehaviorPlanner_aec3a75f12f6776616f4ecb275a975892}{stm\+\_\+is\+\_\+in\+\_\+lane\+\_\+change}
+\item 
+bool \hyperlink{classBehaviorPlanner_a78e0c9212796e8949f7f44bd34f47107}{stm\+\_\+ready\+\_\+for\+\_\+lane\+\_\+change}
+\item 
+double \hyperlink{classBehaviorPlanner_a13833c4fe873c4f5a85bd33fe8efc164}{evaluate\+Lane\+\_\+\+Weight} = 0.\+0
+\item 
+double \hyperlink{classBehaviorPlanner_a4793519effaf8f7c72794f28a3c92147}{evaluate\+Safety\+Distance\+\_\+\+Weight} = 10.\+0
+\item 
+double \hyperlink{classBehaviorPlanner_aeb4e5decdbd61adeb1e75da9d66ba34c}{evaluate\+Speed\+\_\+\+Weight} = 1.\+0
+\item 
+double \hyperlink{classBehaviorPlanner_a12260fe1c642173914fc2690337ac336}{evaluate\+Frenet\+\_\+d\+\_\+\+Weight} = 0.\+0
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Behavior\+Planner@{Behavior\+Planner}!Behavior\+Planner@{Behavior\+Planner}}
+\index{Behavior\+Planner@{Behavior\+Planner}!Behavior\+Planner@{Behavior\+Planner}}
+\subsubsection[{\texorpdfstring{Behavior\+Planner(int initial\+Lane)}{BehaviorPlanner(int initialLane)}}]{\setlength{\rightskip}{0pt plus 5cm}Behavior\+Planner\+::\+Behavior\+Planner (
+\begin{DoxyParamCaption}
+\item[{int}]{initial\+Lane}
+\end{DoxyParamCaption}
+)}\hypertarget{classBehaviorPlanner_aef7c36cbc0cb70964a4e354037ed27a1}{}\label{classBehaviorPlanner_aef7c36cbc0cb70964a4e354037ed27a1}
+
+
+\subsection{Member Function Documentation}
+\index{Behavior\+Planner@{Behavior\+Planner}!evaluate\+Free\+Lane\+Bonus@{evaluate\+Free\+Lane\+Bonus}}
+\index{evaluate\+Free\+Lane\+Bonus@{evaluate\+Free\+Lane\+Bonus}!Behavior\+Planner@{Behavior\+Planner}}
+\subsubsection[{\texorpdfstring{evaluate\+Free\+Lane\+Bonus(vector$<$ double $>$ ego\+Prediction, vector$<$ double $>$ object\+Prediction)}{evaluateFreeLaneBonus(vector< double > egoPrediction, vector< double > objectPrediction)}}]{\setlength{\rightskip}{0pt plus 5cm}int Behavior\+Planner\+::evaluate\+Free\+Lane\+Bonus (
+\begin{DoxyParamCaption}
+\item[{vector$<$ double $>$}]{ego\+Prediction, }
+\item[{vector$<$ double $>$}]{object\+Prediction}
+\end{DoxyParamCaption}
+)}\hypertarget{classBehaviorPlanner_a833375362e34ebaeaff47005cd0bed6d}{}\label{classBehaviorPlanner_a833375362e34ebaeaff47005cd0bed6d}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=300pt]{classBehaviorPlanner_a833375362e34ebaeaff47005cd0bed6d_cgraph}
+\end{center}
+\end{figure}
+
+
+\index{Behavior\+Planner@{Behavior\+Planner}!evaluate\+Frenet\+\_\+d@{evaluate\+Frenet\+\_\+d}}
+\index{evaluate\+Frenet\+\_\+d@{evaluate\+Frenet\+\_\+d}!Behavior\+Planner@{Behavior\+Planner}}
+\subsubsection[{\texorpdfstring{evaluate\+Frenet\+\_\+d(vector$<$ double $>$ ego\+Prediction)}{evaluateFrenet_d(vector< double > egoPrediction)}}]{\setlength{\rightskip}{0pt plus 5cm}double Behavior\+Planner\+::evaluate\+Frenet\+\_\+d (
+\begin{DoxyParamCaption}
+\item[{vector$<$ double $>$}]{ego\+Prediction}
+\end{DoxyParamCaption}
+)}\hypertarget{classBehaviorPlanner_aff22cd158b0d8a748e16eb4b9720d7a9}{}\label{classBehaviorPlanner_aff22cd158b0d8a748e16eb4b9720d7a9}
+\index{Behavior\+Planner@{Behavior\+Planner}!evaluate\+Lane@{evaluate\+Lane}}
+\index{evaluate\+Lane@{evaluate\+Lane}!Behavior\+Planner@{Behavior\+Planner}}
+\subsubsection[{\texorpdfstring{evaluate\+Lane(vector$<$ double $>$ ego\+Prediction)}{evaluateLane(vector< double > egoPrediction)}}]{\setlength{\rightskip}{0pt plus 5cm}double Behavior\+Planner\+::evaluate\+Lane (
+\begin{DoxyParamCaption}
+\item[{vector$<$ double $>$}]{ego\+Prediction}
+\end{DoxyParamCaption}
+)}\hypertarget{classBehaviorPlanner_ac786fd6c315da122b9269e2ef49b988d}{}\label{classBehaviorPlanner_ac786fd6c315da122b9269e2ef49b988d}
+\index{Behavior\+Planner@{Behavior\+Planner}!evaluate\+Safety\+Distance@{evaluate\+Safety\+Distance}}
+\index{evaluate\+Safety\+Distance@{evaluate\+Safety\+Distance}!Behavior\+Planner@{Behavior\+Planner}}
+\subsubsection[{\texorpdfstring{evaluate\+Safety\+Distance(vector$<$ double $>$ ego\+Prediction, vector$<$ double $>$ object\+Prediction)}{evaluateSafetyDistance(vector< double > egoPrediction, vector< double > objectPrediction)}}]{\setlength{\rightskip}{0pt plus 5cm}double Behavior\+Planner\+::evaluate\+Safety\+Distance (
+\begin{DoxyParamCaption}
+\item[{vector$<$ double $>$}]{ego\+Prediction, }
+\item[{vector$<$ double $>$}]{object\+Prediction}
+\end{DoxyParamCaption}
+)}\hypertarget{classBehaviorPlanner_aee55c3bbfbec8ab034069f15acfb40a6}{}\label{classBehaviorPlanner_aee55c3bbfbec8ab034069f15acfb40a6}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=300pt]{classBehaviorPlanner_aee55c3bbfbec8ab034069f15acfb40a6_cgraph}
+\end{center}
+\end{figure}
+
+
+\index{Behavior\+Planner@{Behavior\+Planner}!evaluate\+Situation@{evaluate\+Situation}}
+\index{evaluate\+Situation@{evaluate\+Situation}!Behavior\+Planner@{Behavior\+Planner}}
+\subsubsection[{\texorpdfstring{evaluate\+Situation()}{evaluateSituation()}}]{\setlength{\rightskip}{0pt plus 5cm}double Behavior\+Planner\+::evaluate\+Situation (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classBehaviorPlanner_aec0fc286b925dcc751af3c6caf3fdef9}{}\label{classBehaviorPlanner_aec0fc286b925dcc751af3c6caf3fdef9}
+\index{Behavior\+Planner@{Behavior\+Planner}!evaluate\+Situation@{evaluate\+Situation}}
+\index{evaluate\+Situation@{evaluate\+Situation}!Behavior\+Planner@{Behavior\+Planner}}
+\subsubsection[{\texorpdfstring{evaluate\+Situation(vector$<$ double $>$ ego\+Prediction, int prediction\+Horizon)}{evaluateSituation(vector< double > egoPrediction, int predictionHorizon)}}]{\setlength{\rightskip}{0pt plus 5cm}double Behavior\+Planner\+::evaluate\+Situation (
+\begin{DoxyParamCaption}
+\item[{vector$<$ double $>$}]{ego\+Prediction, }
+\item[{int}]{prediction\+Horizon}
+\end{DoxyParamCaption}
+)}\hypertarget{classBehaviorPlanner_af0d483ed1b5e466fea8e94e3cfe62785}{}\label{classBehaviorPlanner_af0d483ed1b5e466fea8e94e3cfe62785}
+\index{Behavior\+Planner@{Behavior\+Planner}!evaluate\+Speed@{evaluate\+Speed}}
+\index{evaluate\+Speed@{evaluate\+Speed}!Behavior\+Planner@{Behavior\+Planner}}
+\subsubsection[{\texorpdfstring{evaluate\+Speed(vector$<$ double $>$ ego\+Prediction, double ref\+Speed)}{evaluateSpeed(vector< double > egoPrediction, double refSpeed)}}]{\setlength{\rightskip}{0pt plus 5cm}double Behavior\+Planner\+::evaluate\+Speed (
+\begin{DoxyParamCaption}
+\item[{vector$<$ double $>$}]{ego\+Prediction, }
+\item[{double}]{ref\+Speed}
+\end{DoxyParamCaption}
+)}\hypertarget{classBehaviorPlanner_acc2e5ddab8cd80c4fd789b08fcf60f5e}{}\label{classBehaviorPlanner_acc2e5ddab8cd80c4fd789b08fcf60f5e}
+\index{Behavior\+Planner@{Behavior\+Planner}!get\+Maneuvr\+Data\+For\+Trajectory@{get\+Maneuvr\+Data\+For\+Trajectory}}
+\index{get\+Maneuvr\+Data\+For\+Trajectory@{get\+Maneuvr\+Data\+For\+Trajectory}!Behavior\+Planner@{Behavior\+Planner}}
+\subsubsection[{\texorpdfstring{get\+Maneuvr\+Data\+For\+Trajectory(vector$<$ double $>$ proposed\+Path)}{getManeuvrDataForTrajectory(vector< double > proposedPath)}}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ double $>$ Behavior\+Planner\+::get\+Maneuvr\+Data\+For\+Trajectory (
+\begin{DoxyParamCaption}
+\item[{vector$<$ double $>$}]{proposed\+Path}
+\end{DoxyParamCaption}
+)}\hypertarget{classBehaviorPlanner_a1e4a2c4125916f7533295982350da1d3}{}\label{classBehaviorPlanner_a1e4a2c4125916f7533295982350da1d3}
+\index{Behavior\+Planner@{Behavior\+Planner}!get\+Sensor\+Objects@{get\+Sensor\+Objects}}
+\index{get\+Sensor\+Objects@{get\+Sensor\+Objects}!Behavior\+Planner@{Behavior\+Planner}}
+\subsubsection[{\texorpdfstring{get\+Sensor\+Objects()}{getSensorObjects()}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::map$<$double,{\bf Sensor\+Object}$>$ Behavior\+Planner\+::get\+Sensor\+Objects (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classBehaviorPlanner_ad45a4d61f54fde513d189734ff5b5899}{}\label{classBehaviorPlanner_ad45a4d61f54fde513d189734ff5b5899}
+\index{Behavior\+Planner@{Behavior\+Planner}!iterate\+Predictions@{iterate\+Predictions}}
+\index{iterate\+Predictions@{iterate\+Predictions}!Behavior\+Planner@{Behavior\+Planner}}
+\subsubsection[{\texorpdfstring{iterate\+Predictions(vector$<$ double $>$ start, vector$<$ vector$<$ double $>$$>$ history, int prediction\+Horizon)}{iteratePredictions(vector< double > start, vector< vector< double >> history, int predictionHorizon)}}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ vector$<$ vector$<$ double $>$ $>$ $>$ Behavior\+Planner\+::iterate\+Predictions (
+\begin{DoxyParamCaption}
+\item[{vector$<$ double $>$}]{start, }
+\item[{vector$<$ vector$<$ double $>$$>$}]{history, }
+\item[{int}]{prediction\+Horizon}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classBehaviorPlanner_ae839573203455d697946581bbf58e662}{}\label{classBehaviorPlanner_ae839573203455d697946581bbf58e662}
+\index{Behavior\+Planner@{Behavior\+Planner}!predict\+Situation@{predict\+Situation}}
+\index{predict\+Situation@{predict\+Situation}!Behavior\+Planner@{Behavior\+Planner}}
+\subsubsection[{\texorpdfstring{predict\+Situation(int prediction\+Horizon)}{predictSituation(int predictionHorizon)}}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ double $>$ Behavior\+Planner\+::predict\+Situation (
+\begin{DoxyParamCaption}
+\item[{int}]{prediction\+Horizon}
+\end{DoxyParamCaption}
+)}\hypertarget{classBehaviorPlanner_a3a4c41036d3094e28f6b8f63b919e985}{}\label{classBehaviorPlanner_a3a4c41036d3094e28f6b8f63b919e985}
+\index{Behavior\+Planner@{Behavior\+Planner}!stm\+\_\+initiate\+Lane\+Change@{stm\+\_\+initiate\+Lane\+Change}}
+\index{stm\+\_\+initiate\+Lane\+Change@{stm\+\_\+initiate\+Lane\+Change}!Behavior\+Planner@{Behavior\+Planner}}
+\subsubsection[{\texorpdfstring{stm\+\_\+initiate\+Lane\+Change(int target\+Lane)}{stm_initiateLaneChange(int targetLane)}}]{\setlength{\rightskip}{0pt plus 5cm}void Behavior\+Planner\+::stm\+\_\+initiate\+Lane\+Change (
+\begin{DoxyParamCaption}
+\item[{int}]{target\+Lane}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classBehaviorPlanner_aa4299becc244fb5f164921711da79fa5}{}\label{classBehaviorPlanner_aa4299becc244fb5f164921711da79fa5}
+\index{Behavior\+Planner@{Behavior\+Planner}!stm\+\_\+is\+Ready\+For\+Lane\+Change@{stm\+\_\+is\+Ready\+For\+Lane\+Change}}
+\index{stm\+\_\+is\+Ready\+For\+Lane\+Change@{stm\+\_\+is\+Ready\+For\+Lane\+Change}!Behavior\+Planner@{Behavior\+Planner}}
+\subsubsection[{\texorpdfstring{stm\+\_\+is\+Ready\+For\+Lane\+Change()}{stm_isReadyForLaneChange()}}]{\setlength{\rightskip}{0pt plus 5cm}bool Behavior\+Planner\+::stm\+\_\+is\+Ready\+For\+Lane\+Change (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classBehaviorPlanner_ac3c4ecf02aa9deb5a0f955078090e3fd}{}\label{classBehaviorPlanner_ac3c4ecf02aa9deb5a0f955078090e3fd}
+\index{Behavior\+Planner@{Behavior\+Planner}!stm\+\_\+lane\+\_\+change\+\_\+completed@{stm\+\_\+lane\+\_\+change\+\_\+completed}}
+\index{stm\+\_\+lane\+\_\+change\+\_\+completed@{stm\+\_\+lane\+\_\+change\+\_\+completed}!Behavior\+Planner@{Behavior\+Planner}}
+\subsubsection[{\texorpdfstring{stm\+\_\+lane\+\_\+change\+\_\+completed()}{stm_lane_change_completed()}}]{\setlength{\rightskip}{0pt plus 5cm}bool Behavior\+Planner\+::stm\+\_\+lane\+\_\+change\+\_\+completed (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classBehaviorPlanner_ace8509db32f1ee3ee4a178759b3fb32c}{}\label{classBehaviorPlanner_ace8509db32f1ee3ee4a178759b3fb32c}
+
+
+\subsection{Member Data Documentation}
+\index{Behavior\+Planner@{Behavior\+Planner}!ego\+Vehicle@{ego\+Vehicle}}
+\index{ego\+Vehicle@{ego\+Vehicle}!Behavior\+Planner@{Behavior\+Planner}}
+\subsubsection[{\texorpdfstring{ego\+Vehicle}{egoVehicle}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Ego\+Vehicle} Behavior\+Planner\+::ego\+Vehicle}\hypertarget{classBehaviorPlanner_a9dc8174e496e0ccf1d68bedec5b8fdb2}{}\label{classBehaviorPlanner_a9dc8174e496e0ccf1d68bedec5b8fdb2}
+\index{Behavior\+Planner@{Behavior\+Planner}!evaluate\+Frenet\+\_\+d\+\_\+\+Weight@{evaluate\+Frenet\+\_\+d\+\_\+\+Weight}}
+\index{evaluate\+Frenet\+\_\+d\+\_\+\+Weight@{evaluate\+Frenet\+\_\+d\+\_\+\+Weight}!Behavior\+Planner@{Behavior\+Planner}}
+\subsubsection[{\texorpdfstring{evaluate\+Frenet\+\_\+d\+\_\+\+Weight}{evaluateFrenet_d_Weight}}]{\setlength{\rightskip}{0pt plus 5cm}double Behavior\+Planner\+::evaluate\+Frenet\+\_\+d\+\_\+\+Weight = 0.\+0\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classBehaviorPlanner_a12260fe1c642173914fc2690337ac336}{}\label{classBehaviorPlanner_a12260fe1c642173914fc2690337ac336}
+\index{Behavior\+Planner@{Behavior\+Planner}!evaluate\+Lane\+\_\+\+Weight@{evaluate\+Lane\+\_\+\+Weight}}
+\index{evaluate\+Lane\+\_\+\+Weight@{evaluate\+Lane\+\_\+\+Weight}!Behavior\+Planner@{Behavior\+Planner}}
+\subsubsection[{\texorpdfstring{evaluate\+Lane\+\_\+\+Weight}{evaluateLane_Weight}}]{\setlength{\rightskip}{0pt plus 5cm}double Behavior\+Planner\+::evaluate\+Lane\+\_\+\+Weight = 0.\+0\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classBehaviorPlanner_a13833c4fe873c4f5a85bd33fe8efc164}{}\label{classBehaviorPlanner_a13833c4fe873c4f5a85bd33fe8efc164}
+\index{Behavior\+Planner@{Behavior\+Planner}!evaluate\+Safety\+Distance\+\_\+\+Weight@{evaluate\+Safety\+Distance\+\_\+\+Weight}}
+\index{evaluate\+Safety\+Distance\+\_\+\+Weight@{evaluate\+Safety\+Distance\+\_\+\+Weight}!Behavior\+Planner@{Behavior\+Planner}}
+\subsubsection[{\texorpdfstring{evaluate\+Safety\+Distance\+\_\+\+Weight}{evaluateSafetyDistance_Weight}}]{\setlength{\rightskip}{0pt plus 5cm}double Behavior\+Planner\+::evaluate\+Safety\+Distance\+\_\+\+Weight = 10.\+0\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classBehaviorPlanner_a4793519effaf8f7c72794f28a3c92147}{}\label{classBehaviorPlanner_a4793519effaf8f7c72794f28a3c92147}
+\index{Behavior\+Planner@{Behavior\+Planner}!evaluate\+Speed\+\_\+\+Weight@{evaluate\+Speed\+\_\+\+Weight}}
+\index{evaluate\+Speed\+\_\+\+Weight@{evaluate\+Speed\+\_\+\+Weight}!Behavior\+Planner@{Behavior\+Planner}}
+\subsubsection[{\texorpdfstring{evaluate\+Speed\+\_\+\+Weight}{evaluateSpeed_Weight}}]{\setlength{\rightskip}{0pt plus 5cm}double Behavior\+Planner\+::evaluate\+Speed\+\_\+\+Weight = 1.\+0\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classBehaviorPlanner_aeb4e5decdbd61adeb1e75da9d66ba34c}{}\label{classBehaviorPlanner_aeb4e5decdbd61adeb1e75da9d66ba34c}
+\index{Behavior\+Planner@{Behavior\+Planner}!sensor\+Objects@{sensor\+Objects}}
+\index{sensor\+Objects@{sensor\+Objects}!Behavior\+Planner@{Behavior\+Planner}}
+\subsubsection[{\texorpdfstring{sensor\+Objects}{sensorObjects}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::map$<$double,{\bf Sensor\+Object}$>$ Behavior\+Planner\+::sensor\+Objects}\hypertarget{classBehaviorPlanner_a0e7463db7467db3a4fe2e5eff7490d90}{}\label{classBehaviorPlanner_a0e7463db7467db3a4fe2e5eff7490d90}
+\index{Behavior\+Planner@{Behavior\+Planner}!stm\+\_\+is\+\_\+in\+\_\+lane\+\_\+change@{stm\+\_\+is\+\_\+in\+\_\+lane\+\_\+change}}
+\index{stm\+\_\+is\+\_\+in\+\_\+lane\+\_\+change@{stm\+\_\+is\+\_\+in\+\_\+lane\+\_\+change}!Behavior\+Planner@{Behavior\+Planner}}
+\subsubsection[{\texorpdfstring{stm\+\_\+is\+\_\+in\+\_\+lane\+\_\+change}{stm_is_in_lane_change}}]{\setlength{\rightskip}{0pt plus 5cm}bool Behavior\+Planner\+::stm\+\_\+is\+\_\+in\+\_\+lane\+\_\+change\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classBehaviorPlanner_aec3a75f12f6776616f4ecb275a975892}{}\label{classBehaviorPlanner_aec3a75f12f6776616f4ecb275a975892}
+\index{Behavior\+Planner@{Behavior\+Planner}!stm\+\_\+ready\+\_\+for\+\_\+lane\+\_\+change@{stm\+\_\+ready\+\_\+for\+\_\+lane\+\_\+change}}
+\index{stm\+\_\+ready\+\_\+for\+\_\+lane\+\_\+change@{stm\+\_\+ready\+\_\+for\+\_\+lane\+\_\+change}!Behavior\+Planner@{Behavior\+Planner}}
+\subsubsection[{\texorpdfstring{stm\+\_\+ready\+\_\+for\+\_\+lane\+\_\+change}{stm_ready_for_lane_change}}]{\setlength{\rightskip}{0pt plus 5cm}bool Behavior\+Planner\+::stm\+\_\+ready\+\_\+for\+\_\+lane\+\_\+change\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classBehaviorPlanner_a78e0c9212796e8949f7f44bd34f47107}{}\label{classBehaviorPlanner_a78e0c9212796e8949f7f44bd34f47107}
+\index{Behavior\+Planner@{Behavior\+Planner}!stm\+\_\+target\+\_\+lane@{stm\+\_\+target\+\_\+lane}}
+\index{stm\+\_\+target\+\_\+lane@{stm\+\_\+target\+\_\+lane}!Behavior\+Planner@{Behavior\+Planner}}
+\subsubsection[{\texorpdfstring{stm\+\_\+target\+\_\+lane}{stm_target_lane}}]{\setlength{\rightskip}{0pt plus 5cm}int Behavior\+Planner\+::stm\+\_\+target\+\_\+lane\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classBehaviorPlanner_a10df7163fdc6a3830a63cdf8a76b9359}{}\label{classBehaviorPlanner_a10df7163fdc6a3830a63cdf8a76b9359}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\hyperlink{BehaviorPlanner_8h}{Behavior\+Planner.\+h}\item 
+src/\hyperlink{BehaviorPlanner_8cpp}{Behavior\+Planner.\+cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,4 @@
+<map id="BehaviorPlanner" name="BehaviorPlanner">
+<area shape="rect" id="node2" href="$classEgoVehicle.html" title="EgoVehicle" alt="" coords="20,81,108,108"/>
+<area shape="rect" id="node3" href="$classAbstractVehicle.html" title="AbstractVehicle" alt="" coords="7,5,121,32"/>
+</map>

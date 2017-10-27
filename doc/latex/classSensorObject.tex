@@ -1,0 +1,207 @@
+\hypertarget{classSensorObject}{}\section{Sensor\+Object Class Reference}
+\label{classSensorObject}\index{Sensor\+Object@{Sensor\+Object}}
+
+
+{\ttfamily \#include $<$Sensor\+Object.\+h$>$}
+
+
+
+Inheritance diagram for Sensor\+Object\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=166pt]{classSensorObject__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Sensor\+Object\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=166pt]{classSensorObject__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classSensorObject_ac4ac2559d3fbe122bd585860d19f54a8}{Sensor\+Object} ()
+\item 
+double \hyperlink{classSensorObject_ab3e8516fb8273082efbc873266667486}{get\+Speed} ()
+\item 
+double \hyperlink{classSensorObject_abcd7baf59194b7fef7d0ec75eb880123}{get\+Speed\+\_\+x} ()
+\item 
+double \hyperlink{classSensorObject_a0fcc2d7351b630b61fbd5395ac568bc4}{get\+Speed\+\_\+y} ()
+\item 
+string \hyperlink{classSensorObject_adaa7350730c3c627f0f215c251386cb7}{display} ()
+\item 
+void \hyperlink{classSensorObject_a4d0023c0d36c15df10aade6ec224cc56}{update} (\hyperlink{main_8cpp_ab701e3ac61a85b337ec5c1abaad6742d}{json} j)
+\item 
+vector$<$ double $>$ \hyperlink{classSensorObject_a49714af72f563ce1114c9f43e95d7af8}{get\+Prediction} (int second)
+\item 
+void \hyperlink{classSensorObject_a6787ced615e75d519842ab2e893048ca}{calculate\+Predictions} (int prediction\+Horizon)
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+double \hyperlink{classSensorObject_ad11229216ab0dcbbe82aaa9454720255}{get\+Probability\+Of\+Lane\+Change\+Left} ()
+\item 
+double \hyperlink{classSensorObject_a132c4fa7451f21b328bf8252e84fe823}{get\+Probability\+Of\+Lane\+Change\+Right} ()
+\item 
+double \hyperlink{classSensorObject_a3cae3fdbe83f10c4c308c1dc68540cd1}{get\+Probability\+Of\+Lane\+Keep} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+double \hyperlink{classSensorObject_ae33a03dcbff51436ce91dbdc8c27f4b3}{speed\+\_\+x}
+\item 
+double \hyperlink{classSensorObject_aa5fa4bb2ebea9261cdb80b0ef31cb386}{speed\+\_\+y}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Sensor\+Object@{Sensor\+Object}!Sensor\+Object@{Sensor\+Object}}
+\index{Sensor\+Object@{Sensor\+Object}!Sensor\+Object@{Sensor\+Object}}
+\subsubsection[{\texorpdfstring{Sensor\+Object()}{SensorObject()}}]{\setlength{\rightskip}{0pt plus 5cm}Sensor\+Object\+::\+Sensor\+Object (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classSensorObject_ac4ac2559d3fbe122bd585860d19f54a8}{}\label{classSensorObject_ac4ac2559d3fbe122bd585860d19f54a8}
+
+
+\subsection{Member Function Documentation}
+\index{Sensor\+Object@{Sensor\+Object}!calculate\+Predictions@{calculate\+Predictions}}
+\index{calculate\+Predictions@{calculate\+Predictions}!Sensor\+Object@{Sensor\+Object}}
+\subsubsection[{\texorpdfstring{calculate\+Predictions(int prediction\+Horizon)}{calculatePredictions(int predictionHorizon)}}]{\setlength{\rightskip}{0pt plus 5cm}void Sensor\+Object\+::calculate\+Predictions (
+\begin{DoxyParamCaption}
+\item[{int}]{prediction\+Horizon}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classSensorObject_a6787ced615e75d519842ab2e893048ca}{}\label{classSensorObject_a6787ced615e75d519842ab2e893048ca}
+
+
+Implements \hyperlink{classAbstractVehicle_a631115b44756050ccf2a7fe975787035}{Abstract\+Vehicle}.
+
+\index{Sensor\+Object@{Sensor\+Object}!display@{display}}
+\index{display@{display}!Sensor\+Object@{Sensor\+Object}}
+\subsubsection[{\texorpdfstring{display()}{display()}}]{\setlength{\rightskip}{0pt plus 5cm}string Sensor\+Object\+::display (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classSensorObject_adaa7350730c3c627f0f215c251386cb7}{}\label{classSensorObject_adaa7350730c3c627f0f215c251386cb7}
+
+
+Implements \hyperlink{classAbstractVehicle_ada311ec475179ba776966f7e3ddcb91a}{Abstract\+Vehicle}.
+
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=283pt]{classSensorObject_adaa7350730c3c627f0f215c251386cb7_cgraph}
+\end{center}
+\end{figure}
+
+
+\index{Sensor\+Object@{Sensor\+Object}!get\+Prediction@{get\+Prediction}}
+\index{get\+Prediction@{get\+Prediction}!Sensor\+Object@{Sensor\+Object}}
+\subsubsection[{\texorpdfstring{get\+Prediction(int second)}{getPrediction(int second)}}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ double $>$ Sensor\+Object\+::get\+Prediction (
+\begin{DoxyParamCaption}
+\item[{int}]{second}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classSensorObject_a49714af72f563ce1114c9f43e95d7af8}{}\label{classSensorObject_a49714af72f563ce1114c9f43e95d7af8}
+
+
+Implements \hyperlink{classAbstractVehicle_a3c84d6970c9461bfafd76cf48d6bece0}{Abstract\+Vehicle}.
+
+\index{Sensor\+Object@{Sensor\+Object}!get\+Probability\+Of\+Lane\+Change\+Left@{get\+Probability\+Of\+Lane\+Change\+Left}}
+\index{get\+Probability\+Of\+Lane\+Change\+Left@{get\+Probability\+Of\+Lane\+Change\+Left}!Sensor\+Object@{Sensor\+Object}}
+\subsubsection[{\texorpdfstring{get\+Probability\+Of\+Lane\+Change\+Left()}{getProbabilityOfLaneChangeLeft()}}]{\setlength{\rightskip}{0pt plus 5cm}double Sensor\+Object\+::get\+Probability\+Of\+Lane\+Change\+Left (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classSensorObject_ad11229216ab0dcbbe82aaa9454720255}{}\label{classSensorObject_ad11229216ab0dcbbe82aaa9454720255}
+\index{Sensor\+Object@{Sensor\+Object}!get\+Probability\+Of\+Lane\+Change\+Right@{get\+Probability\+Of\+Lane\+Change\+Right}}
+\index{get\+Probability\+Of\+Lane\+Change\+Right@{get\+Probability\+Of\+Lane\+Change\+Right}!Sensor\+Object@{Sensor\+Object}}
+\subsubsection[{\texorpdfstring{get\+Probability\+Of\+Lane\+Change\+Right()}{getProbabilityOfLaneChangeRight()}}]{\setlength{\rightskip}{0pt plus 5cm}double Sensor\+Object\+::get\+Probability\+Of\+Lane\+Change\+Right (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classSensorObject_a132c4fa7451f21b328bf8252e84fe823}{}\label{classSensorObject_a132c4fa7451f21b328bf8252e84fe823}
+\index{Sensor\+Object@{Sensor\+Object}!get\+Probability\+Of\+Lane\+Keep@{get\+Probability\+Of\+Lane\+Keep}}
+\index{get\+Probability\+Of\+Lane\+Keep@{get\+Probability\+Of\+Lane\+Keep}!Sensor\+Object@{Sensor\+Object}}
+\subsubsection[{\texorpdfstring{get\+Probability\+Of\+Lane\+Keep()}{getProbabilityOfLaneKeep()}}]{\setlength{\rightskip}{0pt plus 5cm}double Sensor\+Object\+::get\+Probability\+Of\+Lane\+Keep (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classSensorObject_a3cae3fdbe83f10c4c308c1dc68540cd1}{}\label{classSensorObject_a3cae3fdbe83f10c4c308c1dc68540cd1}
+\index{Sensor\+Object@{Sensor\+Object}!get\+Speed@{get\+Speed}}
+\index{get\+Speed@{get\+Speed}!Sensor\+Object@{Sensor\+Object}}
+\subsubsection[{\texorpdfstring{get\+Speed()}{getSpeed()}}]{\setlength{\rightskip}{0pt plus 5cm}double Sensor\+Object\+::get\+Speed (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classSensorObject_ab3e8516fb8273082efbc873266667486}{}\label{classSensorObject_ab3e8516fb8273082efbc873266667486}
+
+
+Implements \hyperlink{classAbstractVehicle_a17c193d56e1da24a1008ae52859d31c7}{Abstract\+Vehicle}.
+
+\index{Sensor\+Object@{Sensor\+Object}!get\+Speed\+\_\+x@{get\+Speed\+\_\+x}}
+\index{get\+Speed\+\_\+x@{get\+Speed\+\_\+x}!Sensor\+Object@{Sensor\+Object}}
+\subsubsection[{\texorpdfstring{get\+Speed\+\_\+x()}{getSpeed_x()}}]{\setlength{\rightskip}{0pt plus 5cm}double Sensor\+Object\+::get\+Speed\+\_\+x (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classSensorObject_abcd7baf59194b7fef7d0ec75eb880123}{}\label{classSensorObject_abcd7baf59194b7fef7d0ec75eb880123}
+
+
+Implements \hyperlink{classAbstractVehicle_abe9a9f5e2290fdf4207ac0206b9e97a3}{Abstract\+Vehicle}.
+
+\index{Sensor\+Object@{Sensor\+Object}!get\+Speed\+\_\+y@{get\+Speed\+\_\+y}}
+\index{get\+Speed\+\_\+y@{get\+Speed\+\_\+y}!Sensor\+Object@{Sensor\+Object}}
+\subsubsection[{\texorpdfstring{get\+Speed\+\_\+y()}{getSpeed_y()}}]{\setlength{\rightskip}{0pt plus 5cm}double Sensor\+Object\+::get\+Speed\+\_\+y (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classSensorObject_a0fcc2d7351b630b61fbd5395ac568bc4}{}\label{classSensorObject_a0fcc2d7351b630b61fbd5395ac568bc4}
+
+
+Implements \hyperlink{classAbstractVehicle_a90e6e4299070bace1acfd8d79bf78c95}{Abstract\+Vehicle}.
+
+\index{Sensor\+Object@{Sensor\+Object}!update@{update}}
+\index{update@{update}!Sensor\+Object@{Sensor\+Object}}
+\subsubsection[{\texorpdfstring{update(json j)}{update(json j)}}]{\setlength{\rightskip}{0pt plus 5cm}void Sensor\+Object\+::update (
+\begin{DoxyParamCaption}
+\item[{{\bf json}}]{j}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classSensorObject_a4d0023c0d36c15df10aade6ec224cc56}{}\label{classSensorObject_a4d0023c0d36c15df10aade6ec224cc56}
+
+
+Implements \hyperlink{classAbstractVehicle_a004b43b4a4d02ca6122ed8862c672de3}{Abstract\+Vehicle}.
+
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=308pt]{classSensorObject_a4d0023c0d36c15df10aade6ec224cc56_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Member Data Documentation}
+\index{Sensor\+Object@{Sensor\+Object}!speed\+\_\+x@{speed\+\_\+x}}
+\index{speed\+\_\+x@{speed\+\_\+x}!Sensor\+Object@{Sensor\+Object}}
+\subsubsection[{\texorpdfstring{speed\+\_\+x}{speed_x}}]{\setlength{\rightskip}{0pt plus 5cm}double Sensor\+Object\+::speed\+\_\+x\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classSensorObject_ae33a03dcbff51436ce91dbdc8c27f4b3}{}\label{classSensorObject_ae33a03dcbff51436ce91dbdc8c27f4b3}
+\index{Sensor\+Object@{Sensor\+Object}!speed\+\_\+y@{speed\+\_\+y}}
+\index{speed\+\_\+y@{speed\+\_\+y}!Sensor\+Object@{Sensor\+Object}}
+\subsubsection[{\texorpdfstring{speed\+\_\+y}{speed_y}}]{\setlength{\rightskip}{0pt plus 5cm}double Sensor\+Object\+::speed\+\_\+y\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classSensorObject_aa5fa4bb2ebea9261cdb80b0ef31cb386}{}\label{classSensorObject_aa5fa4bb2ebea9261cdb80b0ef31cb386}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\hyperlink{SensorObject_8h}{Sensor\+Object.\+h}\item 
+src/\hyperlink{SensorObject_8cpp}{Sensor\+Object.\+cpp}\end{DoxyCompactItemize}

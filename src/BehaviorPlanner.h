@@ -1,17 +1,38 @@
+/*
+    Copyright (c) 2017 Antonia Reiter
+
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the "Software"),
+    to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+    OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+    OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 #pragma once
 
-#include "json.hpp"
-#include <math.h>
-#include <vector>
 #include "AbstractVehicle.h"
+
 #include "EgoVehicle.h"
 #include "SensorObject.h"
-#include "json.hpp"
-#include <string>
 
-using namespace std;
+using std::vector;
 using nlohmann::json;
 
+/**
+ * Base class for the behavior planning 
+ */
 class BehaviorPlanner{
  public:
    BehaviorPlanner(int initialLane);
@@ -36,13 +57,14 @@ class BehaviorPlanner{
   protected:
     bool stm_isReadyForLaneChange();
     void stm_initiateLaneChange(int targetLane);
-    int stm_target_lane;
-    bool stm_is_in_lane_change;
-    bool stm_ready_for_lane_change;
+    
+    int stm_target_lane;                          /**< Statemachine variable to keep the target lane for take over maneuvr */
+    bool stm_is_in_lane_change;                   /**< Statemachine variable which indicates an ongoing take over maneuvr */
+    bool stm_ready_for_lane_change;               /**< Statemachine variable to indicate the readiness of the egovehicle for lane changing */
  
-    double evaluateLane_Weight = 0.0;
-    double evaluateSafetyDistance_Weight = 10.0;
-    double evaluateSpeed_Weight = 1.0;
+    double evaluateLane_Weight = 0.0;             /**< Fixed weight of cost function for lanes */
+    double evaluateSafetyDistance_Weight = 10.0;  /**< Fixed weight of cost function for safety distance of ego vehicle in both directions */
+     double evaluateSpeed_Weight = 1.0;
     double evaluateFrenet_d_Weight = 0.0;
 
     vector<vector<vector<double>>> iteratePredictions(vector<double> start , vector<vector<double>> history, int predictionHorizon);

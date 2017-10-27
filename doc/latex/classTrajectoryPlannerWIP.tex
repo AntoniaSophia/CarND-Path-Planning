@@ -1,0 +1,219 @@
+\hypertarget{classTrajectoryPlannerWIP}{}\section{Trajectory\+Planner\+W\+IP Class Reference}
+\label{classTrajectoryPlannerWIP}\index{Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}}
+
+
+{\ttfamily \#include $<$Trajectory\+Planner\+W\+I\+P.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classTrajectoryPlannerWIP_ae13818910d1d7b7a65eacf49ebd1682d}{load\+Map} ()
+\item 
+vector$<$ vector$<$ double $>$ $>$ \hyperlink{classTrajectoryPlannerWIP_a9c53694540c32d1e724def363c20d310}{get\+Next\+Path\+Trajectory} (double start\+\_\+s, double start\+\_\+d, double target\+\_\+lane, double current\+\_\+speed, double ref\+\_\+speed, double Time)
+\item 
+vector$<$ vector$<$ double $>$ $>$ \hyperlink{classTrajectoryPlannerWIP_aeb7dc782540b1e43b7be2f7075d23b75}{merge\+Trajectories} (vector$<$ double $>$ \hyperlink{classTrajectoryPlannerWIP_a74997cfa081e6d4409d4d2234e5b3855}{previous\+\_\+path\+\_\+x}, vector$<$ double $>$ \hyperlink{classTrajectoryPlannerWIP_a32a8ed201b7abf6a5817e17ba5e4fca3}{previous\+\_\+path\+\_\+y}, double \hyperlink{classTrajectoryPlannerWIP_a1239028b8c1d13c6e03237f160965112}{end\+\_\+path\+\_\+s}, double \hyperlink{classTrajectoryPlannerWIP_a45a0c4e41dae17e9387b358d472bdb55}{end\+\_\+path\+\_\+d}, vector$<$ vector$<$ double $>$$>$ new\+Traj)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+vector$<$ double $>$ \hyperlink{classTrajectoryPlannerWIP_a74997cfa081e6d4409d4d2234e5b3855}{previous\+\_\+path\+\_\+x}
+\item 
+vector$<$ double $>$ \hyperlink{classTrajectoryPlannerWIP_a32a8ed201b7abf6a5817e17ba5e4fca3}{previous\+\_\+path\+\_\+y}
+\item 
+double \hyperlink{classTrajectoryPlannerWIP_a1239028b8c1d13c6e03237f160965112}{end\+\_\+path\+\_\+s}
+\item 
+double \hyperlink{classTrajectoryPlannerWIP_a45a0c4e41dae17e9387b358d472bdb55}{end\+\_\+path\+\_\+d}
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+vector$<$ double $>$ \hyperlink{classTrajectoryPlannerWIP_a90ba8175932f377a2f56795edb8eb1eb}{get\+Frenet} (double x, double y)
+\item 
+vector$<$ double $>$ \hyperlink{classTrajectoryPlannerWIP_a6c4a03d5e4f4b78bdbd91debe2d1b246}{get\+XY} (double s, double d)
+\item 
+vector$<$ double $>$ \hyperlink{classTrajectoryPlannerWIP_ac2053a967111d1f776616ea7a473cfa0}{J\+MT} (vector$<$ double $>$ start, vector$<$ double $>$ end, double T)
+\item 
+vector$<$ double $>$ \hyperlink{classTrajectoryPlannerWIP_a836cd57fcddc08790c6c4a33249e3161}{predict\+Next\+Endpoint} (double start\+\_\+s, double start\+\_\+d, double lane, double current\+\_\+speed, double ref\+\_\+speed, double Time)
+\item 
+int \hyperlink{classTrajectoryPlannerWIP_afcec4651796ba110751bddeb25f223fa}{Next\+Waypoint} (double x, double y)
+\item 
+int \hyperlink{classTrajectoryPlannerWIP_a9f787291e9065422a9c649c6b24acf8e}{Closest\+Waypoint} (double x, double y)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+string \hyperlink{classTrajectoryPlannerWIP_a87aa1ae8bce8788c8fab3db76b92997c}{map\+\_\+file\+\_\+} = \char`\"{}../data/highway\+\_\+map.\+csv\char`\"{}
+\item 
+double \hyperlink{classTrajectoryPlannerWIP_a43501cae77daf85f811ed0873d9bf960}{max\+\_\+s} = 6945.\+554
+\item 
+vector$<$ double $>$ \hyperlink{classTrajectoryPlannerWIP_abaa6f54058eb01c7c16df360c6883496}{maps\+\_\+x}
+\item 
+vector$<$ double $>$ \hyperlink{classTrajectoryPlannerWIP_a17cfcc4b66e5fff8a1802e5fc9dd7639}{maps\+\_\+y}
+\item 
+vector$<$ double $>$ \hyperlink{classTrajectoryPlannerWIP_a38af64be0ca058c3ac72d6cf2883de9f}{maps\+\_\+s}
+\item 
+vector$<$ double $>$ \hyperlink{classTrajectoryPlannerWIP_a60657fd8df138c58a1a9333f07f73f7e}{maps\+\_\+dx}
+\item 
+vector$<$ double $>$ \hyperlink{classTrajectoryPlannerWIP_ae1fd51251d18023cc395eff388785b13}{maps\+\_\+dy}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\index{Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}!Closest\+Waypoint@{Closest\+Waypoint}}
+\index{Closest\+Waypoint@{Closest\+Waypoint}!Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}}
+\subsubsection[{\texorpdfstring{Closest\+Waypoint(double x, double y)}{ClosestWaypoint(double x, double y)}}]{\setlength{\rightskip}{0pt plus 5cm}int Trajectory\+Planner\+W\+I\+P\+::\+Closest\+Waypoint (
+\begin{DoxyParamCaption}
+\item[{double}]{x, }
+\item[{double}]{y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classTrajectoryPlannerWIP_a9f787291e9065422a9c649c6b24acf8e}{}\label{classTrajectoryPlannerWIP_a9f787291e9065422a9c649c6b24acf8e}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=282pt]{classTrajectoryPlannerWIP_a9f787291e9065422a9c649c6b24acf8e_cgraph}
+\end{center}
+\end{figure}
+
+
+\index{Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}!get\+Frenet@{get\+Frenet}}
+\index{get\+Frenet@{get\+Frenet}!Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}}
+\subsubsection[{\texorpdfstring{get\+Frenet(double x, double y)}{getFrenet(double x, double y)}}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ double $>$ Trajectory\+Planner\+W\+I\+P\+::get\+Frenet (
+\begin{DoxyParamCaption}
+\item[{double}]{x, }
+\item[{double}]{y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classTrajectoryPlannerWIP_a90ba8175932f377a2f56795edb8eb1eb}{}\label{classTrajectoryPlannerWIP_a90ba8175932f377a2f56795edb8eb1eb}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=282pt]{classTrajectoryPlannerWIP_a90ba8175932f377a2f56795edb8eb1eb_cgraph}
+\end{center}
+\end{figure}
+
+
+\index{Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}!get\+Next\+Path\+Trajectory@{get\+Next\+Path\+Trajectory}}
+\index{get\+Next\+Path\+Trajectory@{get\+Next\+Path\+Trajectory}!Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}}
+\subsubsection[{\texorpdfstring{get\+Next\+Path\+Trajectory(double start\+\_\+s, double start\+\_\+d, double target\+\_\+lane, double current\+\_\+speed, double ref\+\_\+speed, double Time)}{getNextPathTrajectory(double start_s, double start_d, double target_lane, double current_speed, double ref_speed, double Time)}}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ vector$<$ double $>$ $>$ Trajectory\+Planner\+W\+I\+P\+::get\+Next\+Path\+Trajectory (
+\begin{DoxyParamCaption}
+\item[{double}]{start\+\_\+s, }
+\item[{double}]{start\+\_\+d, }
+\item[{double}]{target\+\_\+lane, }
+\item[{double}]{current\+\_\+speed, }
+\item[{double}]{ref\+\_\+speed, }
+\item[{double}]{Time}
+\end{DoxyParamCaption}
+)}\hypertarget{classTrajectoryPlannerWIP_a9c53694540c32d1e724def363c20d310}{}\label{classTrajectoryPlannerWIP_a9c53694540c32d1e724def363c20d310}
+\index{Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}!get\+XY@{get\+XY}}
+\index{get\+XY@{get\+XY}!Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}}
+\subsubsection[{\texorpdfstring{get\+X\+Y(double s, double d)}{getXY(double s, double d)}}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ double $>$ Trajectory\+Planner\+W\+I\+P\+::get\+XY (
+\begin{DoxyParamCaption}
+\item[{double}]{s, }
+\item[{double}]{d}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classTrajectoryPlannerWIP_a6c4a03d5e4f4b78bdbd91debe2d1b246}{}\label{classTrajectoryPlannerWIP_a6c4a03d5e4f4b78bdbd91debe2d1b246}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=258pt]{classTrajectoryPlannerWIP_a6c4a03d5e4f4b78bdbd91debe2d1b246_cgraph}
+\end{center}
+\end{figure}
+
+
+\index{Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}!J\+MT@{J\+MT}}
+\index{J\+MT@{J\+MT}!Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}}
+\subsubsection[{\texorpdfstring{J\+M\+T(vector$<$ double $>$ start, vector$<$ double $>$ end, double T)}{JMT(vector< double > start, vector< double > end, double T)}}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ double $>$ Trajectory\+Planner\+W\+I\+P\+::\+J\+MT (
+\begin{DoxyParamCaption}
+\item[{vector$<$ double $>$}]{start, }
+\item[{vector$<$ double $>$}]{end, }
+\item[{double}]{T}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classTrajectoryPlannerWIP_ac2053a967111d1f776616ea7a473cfa0}{}\label{classTrajectoryPlannerWIP_ac2053a967111d1f776616ea7a473cfa0}
+\index{Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}!load\+Map@{load\+Map}}
+\index{load\+Map@{load\+Map}!Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}}
+\subsubsection[{\texorpdfstring{load\+Map()}{loadMap()}}]{\setlength{\rightskip}{0pt plus 5cm}void Trajectory\+Planner\+W\+I\+P\+::load\+Map (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classTrajectoryPlannerWIP_ae13818910d1d7b7a65eacf49ebd1682d}{}\label{classTrajectoryPlannerWIP_ae13818910d1d7b7a65eacf49ebd1682d}
+\index{Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}!merge\+Trajectories@{merge\+Trajectories}}
+\index{merge\+Trajectories@{merge\+Trajectories}!Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}}
+\subsubsection[{\texorpdfstring{merge\+Trajectories(vector$<$ double $>$ previous\+\_\+path\+\_\+x, vector$<$ double $>$ previous\+\_\+path\+\_\+y, double end\+\_\+path\+\_\+s, double end\+\_\+path\+\_\+d, vector$<$ vector$<$ double $>$$>$ new\+Traj)}{mergeTrajectories(vector< double > previous_path_x, vector< double > previous_path_y, double end_path_s, double end_path_d, vector< vector< double >> newTraj)}}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ vector$<$ double $>$ $>$ Trajectory\+Planner\+W\+I\+P\+::merge\+Trajectories (
+\begin{DoxyParamCaption}
+\item[{vector$<$ double $>$}]{previous\+\_\+path\+\_\+x, }
+\item[{vector$<$ double $>$}]{previous\+\_\+path\+\_\+y, }
+\item[{double}]{end\+\_\+path\+\_\+s, }
+\item[{double}]{end\+\_\+path\+\_\+d, }
+\item[{vector$<$ vector$<$ double $>$$>$}]{new\+Traj}
+\end{DoxyParamCaption}
+)}\hypertarget{classTrajectoryPlannerWIP_aeb7dc782540b1e43b7be2f7075d23b75}{}\label{classTrajectoryPlannerWIP_aeb7dc782540b1e43b7be2f7075d23b75}
+\index{Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}!Next\+Waypoint@{Next\+Waypoint}}
+\index{Next\+Waypoint@{Next\+Waypoint}!Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}}
+\subsubsection[{\texorpdfstring{Next\+Waypoint(double x, double y)}{NextWaypoint(double x, double y)}}]{\setlength{\rightskip}{0pt plus 5cm}int Trajectory\+Planner\+W\+I\+P\+::\+Next\+Waypoint (
+\begin{DoxyParamCaption}
+\item[{double}]{x, }
+\item[{double}]{y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classTrajectoryPlannerWIP_afcec4651796ba110751bddeb25f223fa}{}\label{classTrajectoryPlannerWIP_afcec4651796ba110751bddeb25f223fa}
+\index{Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}!predict\+Next\+Endpoint@{predict\+Next\+Endpoint}}
+\index{predict\+Next\+Endpoint@{predict\+Next\+Endpoint}!Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}}
+\subsubsection[{\texorpdfstring{predict\+Next\+Endpoint(double start\+\_\+s, double start\+\_\+d, double lane, double current\+\_\+speed, double ref\+\_\+speed, double Time)}{predictNextEndpoint(double start_s, double start_d, double lane, double current_speed, double ref_speed, double Time)}}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ double $>$ Trajectory\+Planner\+W\+I\+P\+::predict\+Next\+Endpoint (
+\begin{DoxyParamCaption}
+\item[{double}]{start\+\_\+s, }
+\item[{double}]{start\+\_\+d, }
+\item[{double}]{lane, }
+\item[{double}]{current\+\_\+speed, }
+\item[{double}]{ref\+\_\+speed, }
+\item[{double}]{Time}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classTrajectoryPlannerWIP_a836cd57fcddc08790c6c4a33249e3161}{}\label{classTrajectoryPlannerWIP_a836cd57fcddc08790c6c4a33249e3161}
+
+
+\subsection{Member Data Documentation}
+\index{Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}!end\+\_\+path\+\_\+d@{end\+\_\+path\+\_\+d}}
+\index{end\+\_\+path\+\_\+d@{end\+\_\+path\+\_\+d}!Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}}
+\subsubsection[{\texorpdfstring{end\+\_\+path\+\_\+d}{end_path_d}}]{\setlength{\rightskip}{0pt plus 5cm}double Trajectory\+Planner\+W\+I\+P\+::end\+\_\+path\+\_\+d}\hypertarget{classTrajectoryPlannerWIP_a45a0c4e41dae17e9387b358d472bdb55}{}\label{classTrajectoryPlannerWIP_a45a0c4e41dae17e9387b358d472bdb55}
+\index{Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}!end\+\_\+path\+\_\+s@{end\+\_\+path\+\_\+s}}
+\index{end\+\_\+path\+\_\+s@{end\+\_\+path\+\_\+s}!Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}}
+\subsubsection[{\texorpdfstring{end\+\_\+path\+\_\+s}{end_path_s}}]{\setlength{\rightskip}{0pt plus 5cm}double Trajectory\+Planner\+W\+I\+P\+::end\+\_\+path\+\_\+s}\hypertarget{classTrajectoryPlannerWIP_a1239028b8c1d13c6e03237f160965112}{}\label{classTrajectoryPlannerWIP_a1239028b8c1d13c6e03237f160965112}
+\index{Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}!map\+\_\+file\+\_\+@{map\+\_\+file\+\_\+}}
+\index{map\+\_\+file\+\_\+@{map\+\_\+file\+\_\+}!Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}}
+\subsubsection[{\texorpdfstring{map\+\_\+file\+\_\+}{map_file_}}]{\setlength{\rightskip}{0pt plus 5cm}string Trajectory\+Planner\+W\+I\+P\+::map\+\_\+file\+\_\+ = \char`\"{}../data/highway\+\_\+map.\+csv\char`\"{}\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classTrajectoryPlannerWIP_a87aa1ae8bce8788c8fab3db76b92997c}{}\label{classTrajectoryPlannerWIP_a87aa1ae8bce8788c8fab3db76b92997c}
+\index{Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}!maps\+\_\+dx@{maps\+\_\+dx}}
+\index{maps\+\_\+dx@{maps\+\_\+dx}!Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}}
+\subsubsection[{\texorpdfstring{maps\+\_\+dx}{maps_dx}}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$double$>$ Trajectory\+Planner\+W\+I\+P\+::maps\+\_\+dx\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classTrajectoryPlannerWIP_a60657fd8df138c58a1a9333f07f73f7e}{}\label{classTrajectoryPlannerWIP_a60657fd8df138c58a1a9333f07f73f7e}
+\index{Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}!maps\+\_\+dy@{maps\+\_\+dy}}
+\index{maps\+\_\+dy@{maps\+\_\+dy}!Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}}
+\subsubsection[{\texorpdfstring{maps\+\_\+dy}{maps_dy}}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$double$>$ Trajectory\+Planner\+W\+I\+P\+::maps\+\_\+dy\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classTrajectoryPlannerWIP_ae1fd51251d18023cc395eff388785b13}{}\label{classTrajectoryPlannerWIP_ae1fd51251d18023cc395eff388785b13}
+\index{Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}!maps\+\_\+s@{maps\+\_\+s}}
+\index{maps\+\_\+s@{maps\+\_\+s}!Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}}
+\subsubsection[{\texorpdfstring{maps\+\_\+s}{maps_s}}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$double$>$ Trajectory\+Planner\+W\+I\+P\+::maps\+\_\+s\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classTrajectoryPlannerWIP_a38af64be0ca058c3ac72d6cf2883de9f}{}\label{classTrajectoryPlannerWIP_a38af64be0ca058c3ac72d6cf2883de9f}
+\index{Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}!maps\+\_\+x@{maps\+\_\+x}}
+\index{maps\+\_\+x@{maps\+\_\+x}!Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}}
+\subsubsection[{\texorpdfstring{maps\+\_\+x}{maps_x}}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$double$>$ Trajectory\+Planner\+W\+I\+P\+::maps\+\_\+x\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classTrajectoryPlannerWIP_abaa6f54058eb01c7c16df360c6883496}{}\label{classTrajectoryPlannerWIP_abaa6f54058eb01c7c16df360c6883496}
+\index{Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}!maps\+\_\+y@{maps\+\_\+y}}
+\index{maps\+\_\+y@{maps\+\_\+y}!Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}}
+\subsubsection[{\texorpdfstring{maps\+\_\+y}{maps_y}}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$double$>$ Trajectory\+Planner\+W\+I\+P\+::maps\+\_\+y\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classTrajectoryPlannerWIP_a17cfcc4b66e5fff8a1802e5fc9dd7639}{}\label{classTrajectoryPlannerWIP_a17cfcc4b66e5fff8a1802e5fc9dd7639}
+\index{Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}!max\+\_\+s@{max\+\_\+s}}
+\index{max\+\_\+s@{max\+\_\+s}!Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}}
+\subsubsection[{\texorpdfstring{max\+\_\+s}{max_s}}]{\setlength{\rightskip}{0pt plus 5cm}double Trajectory\+Planner\+W\+I\+P\+::max\+\_\+s = 6945.\+554\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classTrajectoryPlannerWIP_a43501cae77daf85f811ed0873d9bf960}{}\label{classTrajectoryPlannerWIP_a43501cae77daf85f811ed0873d9bf960}
+\index{Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}!previous\+\_\+path\+\_\+x@{previous\+\_\+path\+\_\+x}}
+\index{previous\+\_\+path\+\_\+x@{previous\+\_\+path\+\_\+x}!Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}}
+\subsubsection[{\texorpdfstring{previous\+\_\+path\+\_\+x}{previous_path_x}}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$double$>$ Trajectory\+Planner\+W\+I\+P\+::previous\+\_\+path\+\_\+x}\hypertarget{classTrajectoryPlannerWIP_a74997cfa081e6d4409d4d2234e5b3855}{}\label{classTrajectoryPlannerWIP_a74997cfa081e6d4409d4d2234e5b3855}
+\index{Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}!previous\+\_\+path\+\_\+y@{previous\+\_\+path\+\_\+y}}
+\index{previous\+\_\+path\+\_\+y@{previous\+\_\+path\+\_\+y}!Trajectory\+Planner\+W\+IP@{Trajectory\+Planner\+W\+IP}}
+\subsubsection[{\texorpdfstring{previous\+\_\+path\+\_\+y}{previous_path_y}}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$double$>$ Trajectory\+Planner\+W\+I\+P\+::previous\+\_\+path\+\_\+y}\hypertarget{classTrajectoryPlannerWIP_a32a8ed201b7abf6a5817e17ba5e4fca3}{}\label{classTrajectoryPlannerWIP_a32a8ed201b7abf6a5817e17ba5e4fca3}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\hyperlink{TrajectoryPlannerWIP_8h}{Trajectory\+Planner\+W\+I\+P.\+h}\item 
+src/\hyperlink{TrajectoryPlannerWIP_8cpp}{Trajectory\+Planner\+W\+I\+P.\+cpp}\end{DoxyCompactItemize}

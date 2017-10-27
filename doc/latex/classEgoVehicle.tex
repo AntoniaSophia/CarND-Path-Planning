@@ -1,0 +1,263 @@
+\hypertarget{classEgoVehicle}{}\section{Ego\+Vehicle Class Reference}
+\label{classEgoVehicle}\index{Ego\+Vehicle@{Ego\+Vehicle}}
+
+
+{\ttfamily \#include $<$Ego\+Vehicle.\+h$>$}
+
+
+
+Inheritance diagram for Ego\+Vehicle\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=166pt]{classEgoVehicle__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Ego\+Vehicle\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=166pt]{classEgoVehicle__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classEgoVehicle_a2fdc6347881fa4a7a629642f0bbacd82}{Ego\+Vehicle} ()
+\item 
+double \hyperlink{classEgoVehicle_a8062f2bbb14f1bd787921cd83d4e5475}{get\+Speed} ()
+\item 
+double \hyperlink{classEgoVehicle_a692add014c4846c554c4d08e170c140a}{get\+Speed\+\_\+x} ()
+\item 
+double \hyperlink{classEgoVehicle_a88d4bc1d06c685f060d8e628452173fb}{get\+Speed\+\_\+y} ()
+\item 
+string \hyperlink{classEgoVehicle_a68e3c46400e34d4f805fcc392ecd5563}{display} ()
+\item 
+void \hyperlink{classEgoVehicle_a5ba202f45ceff0e164f55a7e1535a178}{set\+Ref\+Speed} (double \hyperlink{classEgoVehicle_a80a9ae1a27a7368cd10f22ac08edcbd3}{ref\+Speed}=10)
+\item 
+double \hyperlink{classEgoVehicle_a487b97b4bb6f969dc032e1387fc3f26f}{get\+Ref\+Speed} ()
+\item 
+void \hyperlink{classEgoVehicle_ae189735224d6a6bb46f6170321c128dc}{update} (\hyperlink{main_8cpp_ab701e3ac61a85b337ec5c1abaad6742d}{json} j)
+\item 
+vector$<$ double $>$ \hyperlink{classEgoVehicle_a6ee0af573a8c20a127f954c5237121c5}{get\+Previous\+\_\+path\+\_\+x} ()
+\item 
+vector$<$ double $>$ \hyperlink{classEgoVehicle_ad87d6b79a64ddae062f3a70575263091}{get\+Previous\+\_\+path\+\_\+y} ()
+\item 
+double \hyperlink{classEgoVehicle_a2f819cd37b15262c2751aaec5f78e4df}{get\+Yaw\+Rad} ()
+\item 
+double \hyperlink{classEgoVehicle_aa75a2d9f4457d5bf249acc0e4672d327}{get\+Yaw\+Deg} ()
+\item 
+double \hyperlink{classEgoVehicle_a4bc481d854046754ad80e5106e82c685}{get\+End\+\_\+\+Path\+\_\+s} ()
+\item 
+double \hyperlink{classEgoVehicle_ae6341fe7bd256601b267cd1a3f122ac0}{get\+End\+\_\+\+Path\+\_\+d} ()
+\item 
+vector$<$ double $>$ \hyperlink{classEgoVehicle_af44e6b8bb8af7410ea404b8939507c93}{get\+Prediction} (int second)
+\item 
+void \hyperlink{classEgoVehicle_ae0b5afee444e02d3211d1bc0c6524bbe}{calculate\+Predictions} (int prediction\+Horizon)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+double \hyperlink{classEgoVehicle_a80a9ae1a27a7368cd10f22ac08edcbd3}{ref\+Speed}
+\item 
+double \hyperlink{classEgoVehicle_ae99585d114a39d671d04c19da303e473}{yaw}
+\item 
+vector$<$ double $>$ \hyperlink{classEgoVehicle_ae32d68e714c98e6e81f15bc9959ffb9e}{previous\+\_\+path\+\_\+x}
+\item 
+vector$<$ double $>$ \hyperlink{classEgoVehicle_aaf1ac96664e7d8e608c710329eed2a3d}{previous\+\_\+path\+\_\+y}
+\item 
+double \hyperlink{classEgoVehicle_ae60f078c638261d10fac67b96681cd4a}{end\+\_\+path\+\_\+s}
+\item 
+double \hyperlink{classEgoVehicle_ab12c04925764e5963d51d5b15b491f4e}{end\+\_\+path\+\_\+d}
+\item 
+double \hyperlink{classEgoVehicle_af0238faf0f998a051b04417bff609315}{speed\+\_\+from\+\_\+sim}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Ego\+Vehicle@{Ego\+Vehicle}!Ego\+Vehicle@{Ego\+Vehicle}}
+\index{Ego\+Vehicle@{Ego\+Vehicle}!Ego\+Vehicle@{Ego\+Vehicle}}
+\subsubsection[{\texorpdfstring{Ego\+Vehicle()}{EgoVehicle()}}]{\setlength{\rightskip}{0pt plus 5cm}Ego\+Vehicle\+::\+Ego\+Vehicle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classEgoVehicle_a2fdc6347881fa4a7a629642f0bbacd82}{}\label{classEgoVehicle_a2fdc6347881fa4a7a629642f0bbacd82}
+
+
+\subsection{Member Function Documentation}
+\index{Ego\+Vehicle@{Ego\+Vehicle}!calculate\+Predictions@{calculate\+Predictions}}
+\index{calculate\+Predictions@{calculate\+Predictions}!Ego\+Vehicle@{Ego\+Vehicle}}
+\subsubsection[{\texorpdfstring{calculate\+Predictions(int prediction\+Horizon)}{calculatePredictions(int predictionHorizon)}}]{\setlength{\rightskip}{0pt plus 5cm}void Ego\+Vehicle\+::calculate\+Predictions (
+\begin{DoxyParamCaption}
+\item[{int}]{prediction\+Horizon}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classEgoVehicle_ae0b5afee444e02d3211d1bc0c6524bbe}{}\label{classEgoVehicle_ae0b5afee444e02d3211d1bc0c6524bbe}
+
+
+Implements \hyperlink{classAbstractVehicle_a631115b44756050ccf2a7fe975787035}{Abstract\+Vehicle}.
+
+\index{Ego\+Vehicle@{Ego\+Vehicle}!display@{display}}
+\index{display@{display}!Ego\+Vehicle@{Ego\+Vehicle}}
+\subsubsection[{\texorpdfstring{display()}{display()}}]{\setlength{\rightskip}{0pt plus 5cm}string Ego\+Vehicle\+::display (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classEgoVehicle_a68e3c46400e34d4f805fcc392ecd5563}{}\label{classEgoVehicle_a68e3c46400e34d4f805fcc392ecd5563}
+
+
+Implements \hyperlink{classAbstractVehicle_ada311ec475179ba776966f7e3ddcb91a}{Abstract\+Vehicle}.
+
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=273pt]{classEgoVehicle_a68e3c46400e34d4f805fcc392ecd5563_cgraph}
+\end{center}
+\end{figure}
+
+
+\index{Ego\+Vehicle@{Ego\+Vehicle}!get\+End\+\_\+\+Path\+\_\+d@{get\+End\+\_\+\+Path\+\_\+d}}
+\index{get\+End\+\_\+\+Path\+\_\+d@{get\+End\+\_\+\+Path\+\_\+d}!Ego\+Vehicle@{Ego\+Vehicle}}
+\subsubsection[{\texorpdfstring{get\+End\+\_\+\+Path\+\_\+d()}{getEnd_Path_d()}}]{\setlength{\rightskip}{0pt plus 5cm}double Ego\+Vehicle\+::get\+End\+\_\+\+Path\+\_\+d (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classEgoVehicle_ae6341fe7bd256601b267cd1a3f122ac0}{}\label{classEgoVehicle_ae6341fe7bd256601b267cd1a3f122ac0}
+\index{Ego\+Vehicle@{Ego\+Vehicle}!get\+End\+\_\+\+Path\+\_\+s@{get\+End\+\_\+\+Path\+\_\+s}}
+\index{get\+End\+\_\+\+Path\+\_\+s@{get\+End\+\_\+\+Path\+\_\+s}!Ego\+Vehicle@{Ego\+Vehicle}}
+\subsubsection[{\texorpdfstring{get\+End\+\_\+\+Path\+\_\+s()}{getEnd_Path_s()}}]{\setlength{\rightskip}{0pt plus 5cm}double Ego\+Vehicle\+::get\+End\+\_\+\+Path\+\_\+s (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classEgoVehicle_a4bc481d854046754ad80e5106e82c685}{}\label{classEgoVehicle_a4bc481d854046754ad80e5106e82c685}
+\index{Ego\+Vehicle@{Ego\+Vehicle}!get\+Prediction@{get\+Prediction}}
+\index{get\+Prediction@{get\+Prediction}!Ego\+Vehicle@{Ego\+Vehicle}}
+\subsubsection[{\texorpdfstring{get\+Prediction(int second)}{getPrediction(int second)}}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ double $>$ Ego\+Vehicle\+::get\+Prediction (
+\begin{DoxyParamCaption}
+\item[{int}]{second}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classEgoVehicle_af44e6b8bb8af7410ea404b8939507c93}{}\label{classEgoVehicle_af44e6b8bb8af7410ea404b8939507c93}
+
+
+Implements \hyperlink{classAbstractVehicle_a3c84d6970c9461bfafd76cf48d6bece0}{Abstract\+Vehicle}.
+
+\index{Ego\+Vehicle@{Ego\+Vehicle}!get\+Previous\+\_\+path\+\_\+x@{get\+Previous\+\_\+path\+\_\+x}}
+\index{get\+Previous\+\_\+path\+\_\+x@{get\+Previous\+\_\+path\+\_\+x}!Ego\+Vehicle@{Ego\+Vehicle}}
+\subsubsection[{\texorpdfstring{get\+Previous\+\_\+path\+\_\+x()}{getPrevious_path_x()}}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$double$>$ Ego\+Vehicle\+::get\+Previous\+\_\+path\+\_\+x (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classEgoVehicle_a6ee0af573a8c20a127f954c5237121c5}{}\label{classEgoVehicle_a6ee0af573a8c20a127f954c5237121c5}
+\index{Ego\+Vehicle@{Ego\+Vehicle}!get\+Previous\+\_\+path\+\_\+y@{get\+Previous\+\_\+path\+\_\+y}}
+\index{get\+Previous\+\_\+path\+\_\+y@{get\+Previous\+\_\+path\+\_\+y}!Ego\+Vehicle@{Ego\+Vehicle}}
+\subsubsection[{\texorpdfstring{get\+Previous\+\_\+path\+\_\+y()}{getPrevious_path_y()}}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$double$>$ Ego\+Vehicle\+::get\+Previous\+\_\+path\+\_\+y (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classEgoVehicle_ad87d6b79a64ddae062f3a70575263091}{}\label{classEgoVehicle_ad87d6b79a64ddae062f3a70575263091}
+\index{Ego\+Vehicle@{Ego\+Vehicle}!get\+Ref\+Speed@{get\+Ref\+Speed}}
+\index{get\+Ref\+Speed@{get\+Ref\+Speed}!Ego\+Vehicle@{Ego\+Vehicle}}
+\subsubsection[{\texorpdfstring{get\+Ref\+Speed()}{getRefSpeed()}}]{\setlength{\rightskip}{0pt plus 5cm}double Ego\+Vehicle\+::get\+Ref\+Speed (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classEgoVehicle_a487b97b4bb6f969dc032e1387fc3f26f}{}\label{classEgoVehicle_a487b97b4bb6f969dc032e1387fc3f26f}
+\index{Ego\+Vehicle@{Ego\+Vehicle}!get\+Speed@{get\+Speed}}
+\index{get\+Speed@{get\+Speed}!Ego\+Vehicle@{Ego\+Vehicle}}
+\subsubsection[{\texorpdfstring{get\+Speed()}{getSpeed()}}]{\setlength{\rightskip}{0pt plus 5cm}double Ego\+Vehicle\+::get\+Speed (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classEgoVehicle_a8062f2bbb14f1bd787921cd83d4e5475}{}\label{classEgoVehicle_a8062f2bbb14f1bd787921cd83d4e5475}
+
+
+Implements \hyperlink{classAbstractVehicle_a17c193d56e1da24a1008ae52859d31c7}{Abstract\+Vehicle}.
+
+\index{Ego\+Vehicle@{Ego\+Vehicle}!get\+Speed\+\_\+x@{get\+Speed\+\_\+x}}
+\index{get\+Speed\+\_\+x@{get\+Speed\+\_\+x}!Ego\+Vehicle@{Ego\+Vehicle}}
+\subsubsection[{\texorpdfstring{get\+Speed\+\_\+x()}{getSpeed_x()}}]{\setlength{\rightskip}{0pt plus 5cm}double Ego\+Vehicle\+::get\+Speed\+\_\+x (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classEgoVehicle_a692add014c4846c554c4d08e170c140a}{}\label{classEgoVehicle_a692add014c4846c554c4d08e170c140a}
+
+
+Implements \hyperlink{classAbstractVehicle_abe9a9f5e2290fdf4207ac0206b9e97a3}{Abstract\+Vehicle}.
+
+\index{Ego\+Vehicle@{Ego\+Vehicle}!get\+Speed\+\_\+y@{get\+Speed\+\_\+y}}
+\index{get\+Speed\+\_\+y@{get\+Speed\+\_\+y}!Ego\+Vehicle@{Ego\+Vehicle}}
+\subsubsection[{\texorpdfstring{get\+Speed\+\_\+y()}{getSpeed_y()}}]{\setlength{\rightskip}{0pt plus 5cm}double Ego\+Vehicle\+::get\+Speed\+\_\+y (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classEgoVehicle_a88d4bc1d06c685f060d8e628452173fb}{}\label{classEgoVehicle_a88d4bc1d06c685f060d8e628452173fb}
+
+
+Implements \hyperlink{classAbstractVehicle_a90e6e4299070bace1acfd8d79bf78c95}{Abstract\+Vehicle}.
+
+\index{Ego\+Vehicle@{Ego\+Vehicle}!get\+Yaw\+Deg@{get\+Yaw\+Deg}}
+\index{get\+Yaw\+Deg@{get\+Yaw\+Deg}!Ego\+Vehicle@{Ego\+Vehicle}}
+\subsubsection[{\texorpdfstring{get\+Yaw\+Deg()}{getYawDeg()}}]{\setlength{\rightskip}{0pt plus 5cm}double Ego\+Vehicle\+::get\+Yaw\+Deg (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classEgoVehicle_aa75a2d9f4457d5bf249acc0e4672d327}{}\label{classEgoVehicle_aa75a2d9f4457d5bf249acc0e4672d327}
+\index{Ego\+Vehicle@{Ego\+Vehicle}!get\+Yaw\+Rad@{get\+Yaw\+Rad}}
+\index{get\+Yaw\+Rad@{get\+Yaw\+Rad}!Ego\+Vehicle@{Ego\+Vehicle}}
+\subsubsection[{\texorpdfstring{get\+Yaw\+Rad()}{getYawRad()}}]{\setlength{\rightskip}{0pt plus 5cm}double Ego\+Vehicle\+::get\+Yaw\+Rad (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classEgoVehicle_a2f819cd37b15262c2751aaec5f78e4df}{}\label{classEgoVehicle_a2f819cd37b15262c2751aaec5f78e4df}
+\index{Ego\+Vehicle@{Ego\+Vehicle}!set\+Ref\+Speed@{set\+Ref\+Speed}}
+\index{set\+Ref\+Speed@{set\+Ref\+Speed}!Ego\+Vehicle@{Ego\+Vehicle}}
+\subsubsection[{\texorpdfstring{set\+Ref\+Speed(double ref\+Speed=10)}{setRefSpeed(double refSpeed=10)}}]{\setlength{\rightskip}{0pt plus 5cm}void Ego\+Vehicle\+::set\+Ref\+Speed (
+\begin{DoxyParamCaption}
+\item[{double}]{ref\+Speed = {\ttfamily 10}}
+\end{DoxyParamCaption}
+)}\hypertarget{classEgoVehicle_a5ba202f45ceff0e164f55a7e1535a178}{}\label{classEgoVehicle_a5ba202f45ceff0e164f55a7e1535a178}
+\index{Ego\+Vehicle@{Ego\+Vehicle}!update@{update}}
+\index{update@{update}!Ego\+Vehicle@{Ego\+Vehicle}}
+\subsubsection[{\texorpdfstring{update(json j)}{update(json j)}}]{\setlength{\rightskip}{0pt plus 5cm}void Ego\+Vehicle\+::update (
+\begin{DoxyParamCaption}
+\item[{{\bf json}}]{j}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classEgoVehicle_ae189735224d6a6bb46f6170321c128dc}{}\label{classEgoVehicle_ae189735224d6a6bb46f6170321c128dc}
+
+
+Implements \hyperlink{classAbstractVehicle_a004b43b4a4d02ca6122ed8862c672de3}{Abstract\+Vehicle}.
+
+
+
+\subsection{Member Data Documentation}
+\index{Ego\+Vehicle@{Ego\+Vehicle}!end\+\_\+path\+\_\+d@{end\+\_\+path\+\_\+d}}
+\index{end\+\_\+path\+\_\+d@{end\+\_\+path\+\_\+d}!Ego\+Vehicle@{Ego\+Vehicle}}
+\subsubsection[{\texorpdfstring{end\+\_\+path\+\_\+d}{end_path_d}}]{\setlength{\rightskip}{0pt plus 5cm}double Ego\+Vehicle\+::end\+\_\+path\+\_\+d\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classEgoVehicle_ab12c04925764e5963d51d5b15b491f4e}{}\label{classEgoVehicle_ab12c04925764e5963d51d5b15b491f4e}
+\index{Ego\+Vehicle@{Ego\+Vehicle}!end\+\_\+path\+\_\+s@{end\+\_\+path\+\_\+s}}
+\index{end\+\_\+path\+\_\+s@{end\+\_\+path\+\_\+s}!Ego\+Vehicle@{Ego\+Vehicle}}
+\subsubsection[{\texorpdfstring{end\+\_\+path\+\_\+s}{end_path_s}}]{\setlength{\rightskip}{0pt plus 5cm}double Ego\+Vehicle\+::end\+\_\+path\+\_\+s\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classEgoVehicle_ae60f078c638261d10fac67b96681cd4a}{}\label{classEgoVehicle_ae60f078c638261d10fac67b96681cd4a}
+\index{Ego\+Vehicle@{Ego\+Vehicle}!previous\+\_\+path\+\_\+x@{previous\+\_\+path\+\_\+x}}
+\index{previous\+\_\+path\+\_\+x@{previous\+\_\+path\+\_\+x}!Ego\+Vehicle@{Ego\+Vehicle}}
+\subsubsection[{\texorpdfstring{previous\+\_\+path\+\_\+x}{previous_path_x}}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$double$>$ Ego\+Vehicle\+::previous\+\_\+path\+\_\+x\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classEgoVehicle_ae32d68e714c98e6e81f15bc9959ffb9e}{}\label{classEgoVehicle_ae32d68e714c98e6e81f15bc9959ffb9e}
+\index{Ego\+Vehicle@{Ego\+Vehicle}!previous\+\_\+path\+\_\+y@{previous\+\_\+path\+\_\+y}}
+\index{previous\+\_\+path\+\_\+y@{previous\+\_\+path\+\_\+y}!Ego\+Vehicle@{Ego\+Vehicle}}
+\subsubsection[{\texorpdfstring{previous\+\_\+path\+\_\+y}{previous_path_y}}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$double$>$ Ego\+Vehicle\+::previous\+\_\+path\+\_\+y\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classEgoVehicle_aaf1ac96664e7d8e608c710329eed2a3d}{}\label{classEgoVehicle_aaf1ac96664e7d8e608c710329eed2a3d}
+\index{Ego\+Vehicle@{Ego\+Vehicle}!ref\+Speed@{ref\+Speed}}
+\index{ref\+Speed@{ref\+Speed}!Ego\+Vehicle@{Ego\+Vehicle}}
+\subsubsection[{\texorpdfstring{ref\+Speed}{refSpeed}}]{\setlength{\rightskip}{0pt plus 5cm}double Ego\+Vehicle\+::ref\+Speed\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classEgoVehicle_a80a9ae1a27a7368cd10f22ac08edcbd3}{}\label{classEgoVehicle_a80a9ae1a27a7368cd10f22ac08edcbd3}
+\index{Ego\+Vehicle@{Ego\+Vehicle}!speed\+\_\+from\+\_\+sim@{speed\+\_\+from\+\_\+sim}}
+\index{speed\+\_\+from\+\_\+sim@{speed\+\_\+from\+\_\+sim}!Ego\+Vehicle@{Ego\+Vehicle}}
+\subsubsection[{\texorpdfstring{speed\+\_\+from\+\_\+sim}{speed_from_sim}}]{\setlength{\rightskip}{0pt plus 5cm}double Ego\+Vehicle\+::speed\+\_\+from\+\_\+sim\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classEgoVehicle_af0238faf0f998a051b04417bff609315}{}\label{classEgoVehicle_af0238faf0f998a051b04417bff609315}
+\index{Ego\+Vehicle@{Ego\+Vehicle}!yaw@{yaw}}
+\index{yaw@{yaw}!Ego\+Vehicle@{Ego\+Vehicle}}
+\subsubsection[{\texorpdfstring{yaw}{yaw}}]{\setlength{\rightskip}{0pt plus 5cm}double Ego\+Vehicle\+::yaw\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classEgoVehicle_ae99585d114a39d671d04c19da303e473}{}\label{classEgoVehicle_ae99585d114a39d671d04c19da303e473}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\hyperlink{EgoVehicle_8h}{Ego\+Vehicle.\+h}\item 
+src/\hyperlink{EgoVehicle_8cpp}{Ego\+Vehicle.\+cpp}\end{DoxyCompactItemize}
