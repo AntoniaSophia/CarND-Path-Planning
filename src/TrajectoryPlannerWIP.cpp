@@ -35,6 +35,12 @@ void TrajectoryPlannerWIP::loadMap() {
     maps_dx.push_back(d_x);
     maps_dy.push_back(d_y);
   }
+
+  // set points
+  this->wp_spline_x.set_points(maps_s, maps_x);
+  this->wp_spline_y.set_points(maps_s, maps_y);
+  this->wp_spline_dx.set_points(maps_s, maps_dx);
+  this->wp_spline_dy.set_points(maps_s, maps_dy);  
 }
 
 // Transform from Frenet s,d coordinates to Cartesian x,y
@@ -121,14 +127,25 @@ vector<vector<double>> TrajectoryPlannerWIP::getNextPathTrajectory(double start_
   vector<double> coeffs_s;
   vector<double> coeffs_d;
 
-  vector<double> start_s_JMT{start_s,current_speed,acceleration};
-  vector<double> end_s_JMT{nextEndpoint[0] , target_speed , 0};
+  if (start_s_JMT[0] == -1) {
+    start_s_JMT = {start_s,0,0};
+    start_d_JMT = {start_d, 0 , 0};
+  } else {
+    start_s_JMT = {end_s_JMT[0],end_s_JMT[1],end_s_JMT[2]};
+    start_d_JMT = {end_d_JMT[0], end_d_JMT[1] , end_d_JMT[2]};
+  }
+  
 
-  vector<double> start_d_JMT{start_d, 0 , 0};
-  vector<double> end_d_JMT{nextEndpoint[1] , 0 , 0};
-
+  end_s_JMT = {nextEndpoint[0] , target_speed , 0};
+  end_d_JMT = {nextEndpoint[1] , 0 , 0};
+  
   //cout << "start_s = " << start_s << "  |  target_speed = " << target_speed << "  | ACC = " << acceleration << endl;
   //cout << "start_d = " << start_d << "  |  end_d = " << nextEndpoint[1] << endl;
+  cout << "start_s = " << start_s_JMT[0] << "  |  start_s_dot = " <<  start_s_JMT[1] << "  | start_s_dot_dot = " <<  start_s_JMT[2] << endl;
+  cout << "end_s = " << end_s_JMT[0] << "  |  end_s_dot = " <<  end_s_JMT[1] << "  | end_s_dot_dot = " <<  end_s_JMT[2] << endl;
+  
+  cout << "start_d = " << start_d_JMT[0] << "  |  start_d_dot = " <<  start_d_JMT[1] << "  | start_d_dot_dot = " <<  start_d_JMT[2] << endl;
+  cout << "end_d = " << end_d_JMT[0] << "  |  end_d_dot = " <<  end_d_JMT[1] << "  | end_d_dot_dot = " <<  end_d_JMT[2] << endl;
 
   coeffs_s = this->JMT(start_s_JMT,end_s_JMT,Time);
   coeffs_d = this->JMT(start_d_JMT,end_d_JMT,Time);
@@ -141,7 +158,7 @@ vector<vector<double>> TrajectoryPlannerWIP::getNextPathTrajectory(double start_
   vector<double> next_s_vals;
   vector<double> next_d_vals;
   
-  for(int i = 1 ; i < 50 ; i++) {
+  for(int i = 1 ; i < 100 ; i++) {
     t += steps;
     double next_s_val = coeffs_s[0] + coeffs_s[1]*t + coeffs_s[2]*pow(t,2.0) 
                         + coeffs_s[3]*pow(t,3.0) + coeffs_s[4]*pow(t,4.0) + coeffs_s[5]*pow(t,5.0);
@@ -163,7 +180,7 @@ vector<vector<double>> TrajectoryPlannerWIP::getNextPathTrajectory(double start_
     next_y_vals.push_back(xy[1]);
 
     //cout << "x: " << xy[0] << " | y:" << xy[1] << endl;
-    //cout << "s: " << next_s_vals[i] << " | d:" << next_d_vals[1] << endl;
+    cout << "s: " << next_s_vals[i] << " | d:" << next_d_vals[i] << endl;
   }
 
   next_vals[0] = next_x_vals;
@@ -183,32 +200,20 @@ vector<vector<double>> TrajectoryPlannerWIP::mergeTrajectories(vector<double> pr
   
   if (previous_path_x.size() > 0) {
     for (int i = 0; i < previous_path_x.size() ; i++) {
-      if (i < 48) {
         result_x.push_back(previous_path_x[i]);
         result_y.push_back(previous_path_y[i]);
-      }
     }
 
-    vector<double> tempPrev = getFrenet(previous_path_x[previous_path_x.size()-1],previous_path_y[previous_path_y.size()-1]);
-    vector<double> tempPrevPrev = getFrenet(previous_path_x[previous_path_x.size()-2],previous_path_y[previous_path_y.size()-2]);
-    double offset = (tempPrev[0] - tempPrevPrev[0]) *3/4;
-    //cout << "Diff d = " << tempPrev[0] - tempPrevPrev[0] << endl;    
-
-
-    for (int i = 0; i < newTraj[0].size() ; i++) {
-      vector<double> temp = getFrenet(newTraj[0][i] , newTraj[1][i]);
-
-      if (temp[0] > end_path_s+offset && (previous_path_x.size() + i) < 51) {
-        //cout << "adding value: x = " << newTraj[0][i] << " | y = " << newTraj[1][i] <<  endl;
+    for (int i = 0; i < newTraj[0].size() && (i+previous_path_x.size()) < 50 ; i++) {
         result_x.push_back(newTraj[0][i]);
         result_y.push_back(newTraj[1][i]);
-      }
     }
 
   } else {
     for (int i = 0; i < newTraj[0].size() ; i++) {
       result_x.push_back(newTraj[0][i]);
       result_y.push_back(newTraj[1][i]);
+      cout << "adding point x: " << newTraj[0][i] << " | y:" << newTraj[0][i] << endl;
     }
   }
   
@@ -216,10 +221,10 @@ vector<vector<double>> TrajectoryPlannerWIP::mergeTrajectories(vector<double> pr
   result.push_back(result_x);
   result.push_back(result_y);
 
-  //cout << "Merged Trajectory consists of  " << result_x.size()  << " points " << endl;
+  cout << "Merged Trajectory consists of  " << result_x.size()  << " points " << endl;
 
   for (int i = 0; i < result[0].size() ; i++) {
-    //cout << "Merged Trajectory: x = " << result[0][i]  << " | y = " << result[1][i] << endl;
+    cout << "Merged Trajectory: x = " << result[0][i]  << " | y = " << result[1][i] << endl;
   }
 
 
@@ -375,4 +380,17 @@ int TrajectoryPlannerWIP::ClosestWaypoint(double x, double y) {
 return closestWaypoint;
 }
 
+vector<double> TrajectoryPlannerWIP::getXY_JMT(double s, double d){
+  double wp_x, wp_y, wp_dx, wp_dy, next_x, next_y;
 
+  // spline interpolation
+  wp_x = this->wp_spline_x(s);
+  wp_y = this->wp_spline_y(s);
+  wp_dx = this->wp_spline_dx(s);
+  wp_dy = this->wp_spline_dy(s);
+
+  next_x = wp_x + wp_dx * d;
+  next_y = wp_y + wp_dy * d;
+
+  return {next_x, next_y};
+}

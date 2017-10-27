@@ -49,6 +49,8 @@ string hasData(string s) {
   return "";
 }
 
+int counter = 0;
+
 int main() {
   uWS::Hub h;
 
@@ -135,12 +137,30 @@ int main() {
           ref_vel = maneuvrData[1];
           lane = maneuvrData[0];
 
-          vector<vector<double>> next_vals;
-          if (previous_path_x.size() == 0) {
-            next_vals = trajWIP.getNextPathTrajectory(car_s, car_d,lane , 0, ref_vel, 2);
-            next_vals = trajWIP.mergeTrajectories(previous_path_x, previous_path_y, end_path_s, end_path_d, next_vals);
+          vector<vector<double>> next_vals{{},{}};
+          bool takeSpline = false;
+
+          if (takeSpline == false) {
+            if (previous_path_x.size()==0 && counter == 0) {
+              next_vals = trajWIP.getNextPathTrajectory(car_s, car_d,lane , 0, ref_vel, 2);
+              next_vals = trajWIP.mergeTrajectories(previous_path_x, previous_path_y, end_path_s, end_path_d, next_vals);
+            } else if (previous_path_x.size() < 80) {
+              cout << "*******************************************" << endl;
+              next_vals = trajWIP.getNextPathTrajectory(car_s, car_d,lane , 0, ref_vel, 2);
+              next_vals = trajWIP.mergeTrajectories(previous_path_x, previous_path_y, end_path_s, end_path_d, next_vals);
+//              cout << "exiting...." << endl;
+//              exit(0);
+            } else {
+              next_vals = trajWIP.mergeTrajectories(previous_path_x, previous_path_y, end_path_s, end_path_d, next_vals);
+            }
           } else {
             next_vals = trajectory.calcTrajFromQA(planner.egoVehicle, ref_vel, lane);
+          }
+
+          counter++;
+          if (counter > 5) {
+            cout << "exiting...." << endl;
+            exit(0);
           }
      
 

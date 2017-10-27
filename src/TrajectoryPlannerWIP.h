@@ -2,7 +2,10 @@
 
 #include <vector>
 #include "EgoVehicle.h"
+#include "spline.h"
 using namespace std;
+using namespace tk; // spline
+
 
 // For converting back and forth between radians and degrees.
 extern double pi();
@@ -39,4 +42,17 @@ protected:
   int NextWaypoint(double x, double y);  
   int ClosestWaypoint(double x, double y);
    
+  vector<double> start_s_JMT{-1,-1,-1};
+  vector<double> end_s_JMT;
+  vector<double> start_d_JMT;
+  vector<double> end_d_JMT;
+
+    // define wp spline trajectory
+    spline wp_spline_x;
+    spline wp_spline_y;
+    spline wp_spline_dx;
+    spline wp_spline_dy;  
+    vector<double> getXY_JMT(double s, double d);
+      
+  
 };
