@@ -131,14 +131,17 @@ int main() {
           vector<double> maneuvrData;
           maneuvrData = planner.getManeuvrDataForTrajectory(proposedPath);
 
-          double ref_vel = -1;
-          int lane = -1;    
+          double ref_vel = maneuvrData[1];
+          int lane = maneuvrData[0];    
+          cout << "Maneuvr --> "; 
+          cout << " lane:  "  << lane;
+          cout << " | speed:  "  << ref_vel;
+          cout << endl;
+
           
-          ref_vel = maneuvrData[1];
-          lane = maneuvrData[0];
 
           vector<vector<double>> next_vals{{},{}};
-          bool takeSpline = false;
+          bool takeSpline = true;
 
           if (takeSpline == false) {
             if (previous_path_x.size()==0 && counter == 0) {
@@ -159,7 +162,7 @@ int main() {
               next_vals = trajWIP.mergeTrajectories(previous_path_x, previous_path_y, end_path_s, end_path_d, next_vals);
             }
           } else {
-            next_vals = trajectory.calcTrajFromQA(planner.egoVehicle, ref_vel, lane);
+            next_vals = trajectory.calcTrajFromQA(planner.egoVehicle, ref_vel*2.237, lane);
           }
 
           // counter++;

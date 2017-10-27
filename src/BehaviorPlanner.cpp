@@ -423,7 +423,7 @@ double BehaviorPlanner::evaluateFrenet_d(vector<double> egoPrediction){
 vector<double> BehaviorPlanner::getManeuvrDataForTrajectory(vector<double> proposedPath) {
   vector<double> result;
   int lane;
-  double speed = proposedPath[3]*2.237;
+  double speed = proposedPath[3];
 
   if ((int)proposedPath[5] == 3 || (int)proposedPath[5] == 4) {
     cout << " planner proposes lane change from lane " << egoVehicle.getLane() << " to lane " << (int)proposedPath[2] << endl;

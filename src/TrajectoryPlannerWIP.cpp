@@ -89,7 +89,7 @@ vector<double> TrajectoryPlannerWIP::predictNextEndpoint(double start_s, double 
 
   double acceleration = (ref_speed - current_speed)/Time;
 
-  //cout << "Acceleration: " << acceleration << endl;
+  cout << "Current Speed: " << current_speed << " | Ref_Speed: " << ref_speed << "  --> Acceleration: " << acceleration << endl;
 
   result_s = start_s + (Time * current_speed) + 0.5*acceleration*pow(Time,2);
 
