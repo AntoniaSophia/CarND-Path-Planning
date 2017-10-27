@@ -65,7 +65,7 @@ class BehaviorPlanner{
  
     double evaluateLane_Weight = 0.0;             /**< Fixed weight of cost function for lanes */
     double evaluateSafetyDistance_Weight = 10.0;  /**< Fixed weight of cost function for safety distance of ego vehicle in both directions */
-     double evaluateSpeed_Weight = 1.0;           /**< Fixed weight of cost function for speed of ego vehicle */
+    double evaluateSpeed_Weight = 1.0;           /**< Fixed weight of cost function for speed of ego vehicle */
     double evaluateFrenet_d_Weight = 0.0;         /**< Fixed weight of cost function for d-frenet position. */
  
 };

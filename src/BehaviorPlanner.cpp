@@ -25,14 +25,20 @@
 #include "SensorObject.h"
 #include "BehaviorPlanner.h"
 #include <set>
-using namespace std;
 
+#include "spdlog/spdlog.h"
 
+//using namespace std;
+
+/**
+ * @brief Constructor, instaniate with initial lane
+ * 
+ * @param initialLane 
+ */
 BehaviorPlanner::BehaviorPlanner(int initialLane) {
   stm_target_lane = initialLane;
   stm_is_in_lane_change = false;
   stm_ready_for_lane_change = true;
-  cout << "************************************************+" << endl;
 }
 
 bool BehaviorPlanner::stm_isReadyForLaneChange() {
@@ -59,7 +65,7 @@ bool BehaviorPlanner::stm_lane_change_completed() {
     if (abs(diff_frenet_d) < threshold) {
       stm_ready_for_lane_change = true;
       stm_is_in_lane_change = false;
-      cout << "lane change finished on to lane 0  !! " << endl;
+      spdlog::get("console")->debug("lane change finished on to lane 0  !! ");
       return true;
     }
   } else if (stm_target_lane == 1) {

@@ -16,6 +16,7 @@
 #include "TrajectoryPlanner.h"
 #include "TrajectoryPlannerWIP.h"
 #include "helper.h"
+#include "spdlog/spdlog.h"
 
 using namespace std;
 
@@ -50,6 +51,10 @@ string hasData(string s) {
 }
 
 int main() {
+
+  auto console = spdlog::stdout_color_mt("console");
+  console->set_level(spdlog::level::debug);
+
   uWS::Hub h;
 
     
@@ -116,15 +121,9 @@ int main() {
           planner.evaluateSituation();
           
           vector<double> proposedPath = planner.predictSituation(4);
-          cout << "Planner --> "; 
-          cout << " | d:  "  << proposedPath[0];
-          cout << " | s:  "  << proposedPath[1];
-          cout << " | lane:  "  << proposedPath[2];
-          cout << " | speed:  "  << proposedPath[3];
-          cout << " | second:  "  << proposedPath[4];
-          cout << " | maneuvr:  "  << man_str[(int)proposedPath[5]];
-          cout << " | eval:  "  << proposedPath[6];
-          cout << endl;
+          spdlog::get("console")->debug("Planner --> d:  {} | s:  {} | lane:  {} | speed: {} | second: {} | maneuvr: {} | eval: {}",
+            proposedPath[0], proposedPath[1], proposedPath[2], proposedPath[3], proposedPath[4], man_str[(int)proposedPath[5]], proposedPath[6]
+        );
 
           vector<double> maneuvrData;
           maneuvrData = planner.getManeuvrDataForTrajectory(proposedPath);
@@ -181,20 +180,20 @@ int main() {
   });
 
   h.onConnection([&h](uWS::WebSocket<uWS::SERVER> ws, uWS::HttpRequest req) {
-    std::cout << "Connected!!!" << std::endl;
+    spdlog::get("console")->info("Connected!!!");
   });
 
   h.onDisconnection([&h](uWS::WebSocket<uWS::SERVER> ws, int code,
                          char *message, size_t length) {
     ws.close();
-    std::cout << "Disconnected" << std::endl;
+    spdlog::get("console")->info("Disconnected");
   });
 
   int port = 4567;
   if (h.listen(port)) {
-    std::cout << "Listening to port " << port << std::endl;
+    spdlog::get("console")->info("Listening to port {}",port);
   } else {
-    std::cerr << "Failed to listen to port" << std::endl;
+    spdlog::get("console")->error("Failed to listen to port {}",port);
     return -1;
   }
   h.run();
