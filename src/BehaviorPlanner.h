@@ -61,9 +61,13 @@ class BehaviorPlanner{
     bool stm_is_in_lane_change;                   /**< Statemachine variable which indicates an ongoing take over maneuvr */
     bool stm_ready_for_lane_change;               /**< Statemachine variable to indicate the readiness of the egovehicle for lane changing */
  
-    double evaluateLane_Weight = 0.0;             /**< Fixed weight of cost function for lanes */
-    double evaluateSafetyDistance_Weight = 10.0;  /**< Fixed weight of cost function for safety distance of ego vehicle in both directions */
-    double evaluateSpeed_Weight = 1.0;           /**< Fixed weight of cost function for speed of ego vehicle */
-    double evaluateFrenet_d_Weight = 0.0;         /**< Fixed weight of cost function for d-frenet position. */
- 
+    bool isLaneChangeSafe(int lane);
+
+    double evaluateLane_Weight = 0.0;
+    double evaluateSafetyDistance_Weight = 10.0;
+    double evaluateSpeed_Weight = 1.0;
+    double evaluateFrenet_d_Weight = 0.0;
+
+    vector<vector<vector<double>>> iteratePredictions(vector<double> start , vector<vector<double>> history, int predictionHorizon);
+  
 };

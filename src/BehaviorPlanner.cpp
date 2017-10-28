@@ -244,9 +244,9 @@ BehaviorPlanner::iteratePredictions(vector<double> start,
   // accelerate (maximum 10m/s²)
   *****************************/
   if (currentSpeed < egoVehicle.getRefSpeed()) {
-    double acc = 5;
+    double acc = 7;
     double speedDiff = egoVehicle.getRefSpeed() - currentSpeed;
-    if (speedDiff < 5) {
+    if (speedDiff < 7) {
       acc = speedDiff;
     }
 
@@ -269,8 +269,8 @@ BehaviorPlanner::iteratePredictions(vector<double> start,
   /*****************************
   // decelerate (maximum 10m/s²)
   *****************************/
-  if (currentSpeed > 5) {
-    double dec = -5;
+  if (currentSpeed > 7) {
+    double dec = -7;
     nextPrediction.push_back(currentFrenet_d);
     nextPrediction.push_back(currentFrenet_s + currentSpeed * 1 +
                              dec / 2.0); // speed is in meters per second!
@@ -291,40 +291,40 @@ BehaviorPlanner::iteratePredictions(vector<double> start,
   // change to left lane
   *****************************/
   if (currentLane > 0) {
-    nextPrediction.push_back(currentFrenet_d - 4);
-    nextPrediction.push_back(currentFrenet_s + currentSpeed -
-                             1); // speed is in meters per second!
-    nextPrediction.push_back(currentLane - 1);
-    nextPrediction.push_back(currentSpeed);
-    nextPrediction.push_back(currentSecond + 1);
-    nextPrediction.push_back(3);
-    nextPrediction.push_back(
-        evaluateSituation(nextPrediction, currentSecond + 1) + 0.05);
-
-    history.push_back(nextPrediction);
-    result.push_back(vector<vector<double>>(history));
-    history.pop_back();
-    nextPrediction.clear();
+    if (currentSecond > 0 || (currentSecond = 0 && isLaneChangeSafe(currentLane-1) == true)) {
+      nextPrediction.push_back(currentFrenet_d - 4);
+      nextPrediction.push_back(currentFrenet_s + currentSpeed - 1); // speed is in meters per second!
+      nextPrediction.push_back(currentLane-1);
+      nextPrediction.push_back(currentSpeed);
+      nextPrediction.push_back(currentSecond+1);
+      nextPrediction.push_back(3);
+      nextPrediction.push_back(evaluateSituation(nextPrediction,currentSecond+1)+0.05);
+        
+      history.push_back(nextPrediction);
+      result.push_back(vector<vector<double>>(history));
+      history.pop_back();
+      nextPrediction.clear();
+    }
   }
 
   /*****************************
   // change to right lane
   *****************************/
   if (currentLane < 2) {
-    nextPrediction.push_back(currentFrenet_d + 4);
-    nextPrediction.push_back(currentFrenet_s + currentSpeed -
-                             1); // speed is in meters per second!
-    nextPrediction.push_back(currentLane + 1);
-    nextPrediction.push_back(currentSpeed);
-    nextPrediction.push_back(currentSecond + 1);
-    nextPrediction.push_back(4);
-    nextPrediction.push_back(
-        evaluateSituation(nextPrediction, currentSecond + 1) + 0.05);
-
-    history.push_back(nextPrediction);
-    result.push_back(vector<vector<double>>(history));
-    history.pop_back();
-    nextPrediction.clear();
+    if (currentSecond > 0 || (currentSecond = 0 && isLaneChangeSafe(currentLane+1) == true)) {
+      nextPrediction.push_back(currentFrenet_d + 4);
+      nextPrediction.push_back(currentFrenet_s + currentSpeed - 1); // speed is in meters per second!
+      nextPrediction.push_back(currentLane+1);
+      nextPrediction.push_back(currentSpeed);
+      nextPrediction.push_back(currentSecond+1);
+      nextPrediction.push_back(4);
+      nextPrediction.push_back(evaluateSituation(nextPrediction,currentSecond+1)+0.05);
+        
+      history.push_back(nextPrediction);
+      result.push_back(vector<vector<double>>(history));
+      history.pop_back();
+      nextPrediction.clear();
+    }
   }
 
   if (currentSecond + 1 < predictionHorizon) {
@@ -345,11 +345,28 @@ BehaviorPlanner::iteratePredictions(vector<double> start,
   }
 }
 
-/**
- * @brief
- *
- * @return double
- */
+bool BehaviorPlanner::isLaneChangeSafe(int lane) {
+  if (egoVehicle.getLane() - lane > 1) {
+    // TODO: error handling --> no jump in lane change....
+    return false;
+  } else if (egoVehicle.getLane() - lane == 0) {
+    // TODO: error handling --> no lane change !?
+    return false;
+  }
+
+  // First check wheter we are too close to a vehicle in front of us
+  double closestDistanceInLane = 7000;
+
+  for(auto it = sensorObjects.begin(); it != sensorObjects.end(); ++it) {
+    if (it->second.getLane() == egoVehicle.getLane()) {
+
+    }
+  }   
+  
+  return true;
+}
+
+
 double BehaviorPlanner::evaluateSituation() {
   return evaluateSituation(egoVehicle.getPrediction(0), 0);
 }
@@ -459,11 +476,9 @@ BehaviorPlanner::evaluateSafetyDistance(vector<double> egoPrediction,
 
   // calculate the safety distance always from the faster vehicle!!
   if (egoPrediction[3] > objectPrediction[3]) {
-    safetyDistance = egoPrediction[3] * 3.6 *
-                     0.45; // 3.6 = meters per second into kilometers per hour
+    safetyDistance = egoPrediction[3]  * 3.6 * 0.5; // 3.6 = meters per second into kilometers per hour
   } else {
-    safetyDistance = objectPrediction[3] * 3.6 *
-                     0.45; // 3.6 = meters per second into kilometers per hour
+    safetyDistance = objectPrediction[3]  * 3.6 * 0.5; // 3.6 = meters per second into kilometers per hour
   }
 
   double distance = abs(egoPrediction[1] - objectPrediction[1]);
@@ -473,11 +488,11 @@ BehaviorPlanner::evaluateSafetyDistance(vector<double> egoPrediction,
       distance, egoPrediction[3]);
 
   if (distance > safetyDistance) {
-    return 0.0;
+    return 1.0/distance;
   }
 
   // ok, now assume the distance is smaller than the safety distance
-  result = 1 / distance;
+  result = 1.0/distance;
   return result * evaluateSafetyDistance_Weight;
 }
 
@@ -544,7 +559,7 @@ vector<double>
 BehaviorPlanner::getManeuvrDataForTrajectory(vector<double> proposedPath) {
   vector<double> result;
   int lane;
-  double speed = proposedPath[3] * 2.237;
+  double speed = proposedPath[3];
 
   if ((int)proposedPath[5] == 3 || (int)proposedPath[5] == 4) {
     spdlog::get("console")->debug(

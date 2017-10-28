@@ -42,6 +42,8 @@ string hasData(string s) {
   return "";
 }
 
+int counter = 0;
+
 int main() {
 
   auto console = spdlog::stdout_color_mt("console");
@@ -120,19 +122,45 @@ int main() {
           vector<double> maneuvrData;
           maneuvrData = planner.getManeuvrDataForTrajectory(proposedPath);
 
-          double ref_vel = -1;
-          int lane = -1;    
-          
-          ref_vel = maneuvrData[1];
-          lane = maneuvrData[0];
+          double ref_vel = maneuvrData[1];
+          int lane = maneuvrData[0];    
+          cout << "Maneuvr --> "; 
+          cout << " lane:  "  << lane;
+          cout << " | speed:  "  << ref_vel;
+          cout << endl;
 
-          vector<vector<double>> next_vals;
-          if (previous_path_x.size() == 0) {
-            next_vals = trajWIP.getNextPathTrajectory(car_s, car_d,lane , 0, ref_vel, 2);
-            next_vals = trajWIP.mergeTrajectories(previous_path_x, previous_path_y, end_path_s, end_path_d, next_vals);
+          
+
+          vector<vector<double>> next_vals{{},{}};
+          bool takeSpline = false;
+
+          if (takeSpline == false) {
+            if (previous_path_x.size()==0 && counter == 0) {
+              next_vals = trajWIP.getNextPathTrajectory(car_s, car_d,lane , 0, ref_vel, 2);
+              next_vals = trajWIP.mergeTrajectories(previous_path_x, previous_path_y, end_path_s, end_path_d, next_vals);
+            } else if (previous_path_x.size() < 25) {
+              int time = 2;
+              if (planner.stm_lane_change_completed() == false) {
+                time = 3;
+              }
+
+              next_vals = trajWIP.getNextPathTrajectory(car_s, car_d,lane , planner.egoVehicle.getSpeed() , ref_vel, time);
+              next_vals = trajWIP.mergeTrajectories(previous_path_x, previous_path_y, end_path_s, end_path_d, next_vals);
+
+//              cout << "exiting...." << endl;
+//              exit(0);
+            } else {
+              next_vals = trajWIP.mergeTrajectories(previous_path_x, previous_path_y, end_path_s, end_path_d, next_vals);
+            }
           } else {
-            next_vals = trajectory.calcTrajFromQA(planner.egoVehicle, ref_vel, lane);
+            next_vals = trajectory.calcTrajFromQA(planner.egoVehicle, ref_vel*2.237, lane);
           }
+
+          // counter++;
+          // if (counter > 1000) {
+          //   cout << "exiting...." << endl;
+          //   exit(0);
+          // }
      
 
           t = tmr.elapsed();
