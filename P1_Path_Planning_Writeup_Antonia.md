@@ -14,7 +14,7 @@ The goals / steps of this project are the following:
 Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/1020/view) individually and describe how I addressed each point in my implementation.  
 
 
-##Description
+### Description
 First of all this was the far most complex project I have worked on so far in this Udacity program. I even introduced a proper logging facility in order to be able to have better debugging possibilities.
 At the end it is still far from being finished or even polished, but I really ran out of time and didn't want to risk my matrimony - so I stopped in between when I was sure that the criterias of the project rubric are fulfilled.
 
