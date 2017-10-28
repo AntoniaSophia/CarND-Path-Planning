@@ -46,8 +46,9 @@ int counter = 0;
 
 int main() {
 
-  auto console = spdlog::stdout_color_mt("console");
-  //console->set_level(spdlog::level::debug);
+  auto console = spdlog::basic_logger_mt("console","log.txt");
+  //auto console = spdlog::stdout_color_mt("console");
+  console->set_level(spdlog::level::info);
 
   uWS::Hub h;
 
@@ -93,7 +94,7 @@ int main() {
           vector<vector<double>> sensor_fusion = j[1]["sensor_fusion"];
 
           planner.egoVehicle.update(j[1]);
-          spdlog::get("console")->debug("{}",planner.egoVehicle.display()); 
+          spdlog::get("console")->info("{}",planner.egoVehicle.display()); 
 
           std::map<double,SensorObject>::iterator it;
 
@@ -115,7 +116,7 @@ int main() {
           planner.evaluateSituation();
           
           vector<double> proposedPath = planner.predictSituation(4);
-          spdlog::get("console")->debug("Planner --> d:  {} | s:  {} | lane:  {} | speed: {} | second: {} | maneuvr: {} | eval: {}",
+          spdlog::get("console")->info("Planner --> d:  {} | s:  {} | lane:  {} | speed: {} | second: {} | maneuvr: {} | eval: {}",
             proposedPath[0], proposedPath[1], proposedPath[2], proposedPath[3], proposedPath[4], man_str[(int)proposedPath[5]], proposedPath[6]
         );
 
@@ -124,11 +125,11 @@ int main() {
 
           double ref_vel = maneuvrData[1];
           int lane = maneuvrData[0];    
-          spdlog::get("console")->debug("Maneuvr --> lane: {} | speed: {}", lane, ref_vel);
+          spdlog::get("console")->info("Maneuvr --> lane: {} | speed: {}", lane, ref_vel);
           
 
           vector<vector<double>> next_vals{{},{}};
-          bool takeSpline = false;
+          bool takeSpline = true;
 
           if (takeSpline == false) {
             if (previous_path_x.size()==0 && counter == 0) {

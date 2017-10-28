@@ -79,7 +79,7 @@ bool BehaviorPlanner::stm_lane_change_completed() {
     if (abs(diff_frenet_d) < threshold) {
       stm_ready_for_lane_change = true;
       stm_is_in_lane_change = false;
-      spdlog::get("console")->debug("lane change finished on to lane 0  !! ");
+      spdlog::get("console")->info("lane change finished on to lane 0  !! ");
       return true;
     }
   } else if (stm_target_lane == 1) {
@@ -87,7 +87,7 @@ bool BehaviorPlanner::stm_lane_change_completed() {
     if (abs(diff_frenet_d) < threshold) {
       stm_ready_for_lane_change = true;
       stm_is_in_lane_change = false;
-      spdlog::get("console")->debug("lane change finished on to lane 1  !! ");
+      spdlog::get("console")->info("lane change finished on to lane 1  !! ");
       return true;
     }
   } else if (stm_target_lane == 2) {
@@ -95,7 +95,7 @@ bool BehaviorPlanner::stm_lane_change_completed() {
     if (abs(diff_frenet_d) < threshold) {
       stm_ready_for_lane_change = true;
       stm_is_in_lane_change = false;
-      spdlog::get("console")->debug("lane change finished on to lane 2  !! ");
+      spdlog::get("console")->info("lane change finished on to lane 2  !! ");
       return true;
     }
   }
@@ -462,7 +462,7 @@ double BehaviorPlanner::evaluateSituation(vector<double> egoPrediction,
 
   double frenet_dCost = evaluateFrenet_d(egoPrediction);
   result += frenet_dCost;
-  spdlog::get("console")->debug(
+  spdlog::get("console")->info(
       "BehaviorPlanner reports value {}  | LaneCost = {} | SpeedCost = {} | d "
       "Cost = {} | Free Lane Bonus = {}",
       result, laneCost, speedCost, frenet_dCost, bonus);
@@ -611,18 +611,18 @@ BehaviorPlanner::getManeuvrDataForTrajectory(vector<double> proposedPath) {
   double speed = proposedPath[3];
 
   if ((int)proposedPath[5] == 3 || (int)proposedPath[5] == 4) {
-    spdlog::get("console")->debug(
+    spdlog::get("console")->info(
         "planner proposes lane change from lane {} to lane {} ",
         egoVehicle.getLane(), (int)proposedPath[2]);
 
     if ((int)proposedPath[2] != egoVehicle.getLane()) {
-      spdlog::get("console")->debug(
+      spdlog::get("console")->info(
           "stm_isReadyForLaneChange() = {} | stm_is_in_lane_change = {} | "
           "stm_target_lane = {}",
           stm_isReadyForLaneChange(), stm_is_in_lane_change, stm_target_lane);
 
       if (stm_isReadyForLaneChange() == true) {
-        spdlog::get("console")->debug("executing lane change");
+        spdlog::get("console")->info("executing lane change");
         stm_initiateLaneChange((int)proposedPath[2]);
         lane = (int)proposedPath[2];
       } else {

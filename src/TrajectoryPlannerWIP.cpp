@@ -124,13 +124,12 @@ vector<double> TrajectoryPlannerWIP::predictNextEndpoint(double start_s, double 
     result_d = 10;
   } else {
     // TODO: proper error handling
-    spdlog::get("console")->error("Error in TrajectoryPlannerWIP::predictNextEndpoint");
-    exit(0);
+    spdlog::get("console")->error("Error in TrajectoryPlannerWIP::predictNextEndpoint, got invalid lane {}", lane);
   }
 
   double acceleration = (ref_speed - current_speed)/Time;
 
-  spdlog::get("console")->debug("Current Speed: {} | Ref_Speed: {} --> Acceleration: {}",current_speed, ref_speed, acceleration);
+  spdlog::get("console")->info("Current Speed: {} | Ref_Speed: {} --> Acceleration: {}",current_speed, ref_speed, acceleration);
 
   result_s = start_s + (Time * current_speed) + 0.5*acceleration*pow(Time,2);
 
@@ -235,8 +234,8 @@ vector<vector<double>> TrajectoryPlannerWIP::getNextPathTrajectory(double start_
     }
 
     if (next_s_vals[i] > 6800 || next_s_vals[i] < 100) {
-      cout << "x: " << xy[0] << " | y:" << xy[1] << endl;
-      cout << "s: " << next_s_vals[i] << " | d:" << next_d_vals[i] << endl;
+      spdlog::get("console")->info("x: {} | y = {}", xy[0], xy[1]);
+      spdlog::get("console")->info("s: {} | d = {}", next_s_vals[i],next_d_vals[i]);
     }
   }
 
@@ -279,7 +278,7 @@ vector<vector<double>> TrajectoryPlannerWIP::mergeTrajectories(vector<double> pr
     for (int i = 0; i < newTraj[0].size() ; i++) {
       result_x.push_back(newTraj[0][i]);
       result_y.push_back(newTraj[1][i]);
-      spdlog::get("console")->debug("adding point x: {} | y: {}", newTraj[0][i] ,newTraj[0][i]);
+      spdlog::get("console")->info("adding point x: {} | y: {}", newTraj[0][i] ,newTraj[0][i]);
       //cout << 
     }
   }
@@ -289,10 +288,10 @@ vector<vector<double>> TrajectoryPlannerWIP::mergeTrajectories(vector<double> pr
   result.push_back(result_y);
 
   if (end_path_s > 6800) {
-    cout << "Merged Trajectory consists of  " << result_x.size()  << " points " << endl;
+    spdlog::get("console")->info("Merged Trajectory consists of {} points",result_x.size());
 
     for (int i = 0; i < result[0].size() ; i++) {
-      cout << "Merged Trajectory: x = " << result[0][i]  << " | y = " << result[1][i] << endl;
+      spdlog::get("console")->info("Merged Trajectory: x = {} | y = {} ",result[0][i],result[1][i]);
     }
   }
 

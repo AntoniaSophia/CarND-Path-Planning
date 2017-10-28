@@ -100,7 +100,7 @@ void SensorObject::update(json j) {
     this->currentLane = this->getLane();
   } else if (this->lastLane != -1) {
     if (this->getLane() != this->lastLane) {
-      spdlog::get("console")->debug("Lane change of Object {} from lane {} to lane {}", this->id, this->lastLane, this->getLane());
+      spdlog::get("console")->info("Lane change of Object {} from lane {} to lane {}", this->id, this->lastLane, this->getLane());
       this->lastLane = this->getLane();
     }
   }
