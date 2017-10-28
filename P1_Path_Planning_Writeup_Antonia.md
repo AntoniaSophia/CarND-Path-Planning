@@ -14,14 +14,15 @@ The goals / steps of this project are the following:
 Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/1020/view) individually and describe how I addressed each point in my implementation.  
 
 
-###Description
+##Description
 First of all this was the far most complex project I have worked on so far in this Udacity program. I even introduced a proper logging facility in order to be able to have better debugging possibilities.
 At the end it is still far from being finished or even polished, but I really ran out of time and didn't want to risk my matrimony - so I stopped in between when I was sure that the criterias of the project rubric are fulfilled.
 
 So I apologize for the code which is sometimes more complex than required, contains two quick hacks and is not refactored. At the end I know it better and would actually re-write a lot of parts - but that's how SW developement is like sometimes...
 
+#### The Behavior Planner (class BehaviorPlanner.cpp)
 Now coming to the main criteria of my implementation:
-*  I introduced a strict seperation of behavior planning (class BehaviorPlanner) and trajectory generation (classes Trajectory.cpp and TrajectoryWIP.cpp)
+*  I introduced a strict seperation of behavior planning (class BehaviorPlanner in file BehaviorPlanner.cpp) and trajectory generation (classes Trajectory.cpp and TrajectoryWIP.cpp)
 * the Behavior planner is recursive and can go into future prediction for maximum 10 steps (1 step = 1 second). This makes planning a bit more strategic, however for a deep strategy more computing power would be required (different thread with a different time). I realized too late that a maximum depth of 4 seconds (see main.cpp in line 118 `planner.predictSituation(4)`) is possible in order to be able to finish that calculations within 20ms
 * the Behavior planner works according the to following steps:
   - predict the future with all possible (and reasonable) maneuvrs (BehaviorPlanner.cpp in function `iteratePredictions()`)
@@ -63,8 +64,8 @@ I calculate in Frenet coordinates and took some time until I've found out the in
 
 
 Which problems do I face with this trajectory planner:
-* sometimes (really rarely - around once in 4 miles) it happens that I get the message "out of lane" or/and "speed limit violation". I'm quite sure that this is not a problem with my algorithm, but I couldn't really find the time now in order to spot the problem
-* at the end of the race course (after `s>6900`) I get a weird behavior of my ego vehicle which is suddenly executing a rectangular lane change. After initial analysis I found out that it most likely is a problem either with the simulator which provides wrong `d` values or the calculation of the `(x,y)` values by the method `getXY_JMT()` is failing at the last waypoint.
+* sometimes (really rarely - around once or twice in 4 miles) it happens that I get the message "out of lane" or/and "speed limit violation". I'm quite sure that this is not a problem with my algorithm, but I couldn't really find the time now in order to spot the problem
+* at the end of the race course (after `s>6900`) I get a weird behavior of my ego vehicle which is suddenly executing a rectangular lane change or "jump". After initial analysis I found out that it most likely is a problem either with the simulator which provides wrong `d` values or the calculation of the `(x,y)` values by the method `getXY_JMT()` is failing at the last waypoint.
 * as I use 100 waypoints for sending back to the simulator I even have a reaction time of 2 seconds in worst case
 
-So finally again it was a great peasure working at that project, and I would highly appreciate further hints in order to improve my second trajectory planner TrajectoryWIP - what can I do in order to avoaid the spontanous "out of lane" messages or the "jump" at the end of the race course?
+So finally again it was a great peasure working at that project, and I would highly appreciate further hints in order to improve my second trajectory planner TrajectoryWIP - what can I do in order to avoid the spontaneous "out of lane" messages or the "jump" at the end of the race course?
