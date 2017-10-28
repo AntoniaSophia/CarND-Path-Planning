@@ -54,7 +54,7 @@ int main() {
 
     
   BehaviorPlanner planner(1); // initiate planner on lane 1
-  planner.egoVehicle.setRefSpeed(22);
+  planner.egoVehicle.setRefSpeed(22); // set the maximum and desired speed of 22 meters per second
   
   TrajectoryPlanner trajectory;
   TrajectoryPlannerWIP trajWIP;
@@ -138,7 +138,7 @@ int main() {
               next_vals = trajWIP.getNextPathTrajectory(car_s, car_d,lane , 0, ref_vel, 2);
               next_vals = trajWIP.mergeTrajectories(previous_path_x, previous_path_y, end_path_s, end_path_d, next_vals);
             } else if (previous_path_x.size() < 25) {
-              // re-generate new points if only 23 are available
+              // re-generate new points if only 25 are available
 
               // use 2 seconds for a trajectory, in case of a lane change take 3 seconds
               int time = 2;
