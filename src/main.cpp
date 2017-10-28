@@ -47,7 +47,7 @@ int counter = 0;
 int main() {
 
   auto console = spdlog::stdout_color_mt("console");
-  console->set_level(spdlog::level::debug);
+  //console->set_level(spdlog::level::debug);
 
   uWS::Hub h;
 
@@ -68,7 +68,7 @@ int main() {
     // The 4 signifies a websocket message
     // The 2 signifies a websocket event
     // auto sdata = string(data).substr(0, length);
-    // cout << sdata << endl;
+
     if (length && length > 2 && data[0] == '4' && data[1] == '2') {
 
       auto s = hasData(data);
@@ -93,7 +93,7 @@ int main() {
           vector<vector<double>> sensor_fusion = j[1]["sensor_fusion"];
 
           planner.egoVehicle.update(j[1]);
-          cout << planner.egoVehicle.display() << endl; 
+          spdlog::get("console")->debug("{}",planner.egoVehicle.display()); 
 
           std::map<double,SensorObject>::iterator it;
 
@@ -124,11 +124,7 @@ int main() {
 
           double ref_vel = maneuvrData[1];
           int lane = maneuvrData[0];    
-          cout << "Maneuvr --> "; 
-          cout << " lane:  "  << lane;
-          cout << " | speed:  "  << ref_vel;
-          cout << endl;
-
+          spdlog::get("console")->debug("Maneuvr --> lane: {} | speed: {}", lane, ref_vel);
           
 
           vector<vector<double>> next_vals{{},{}};
@@ -147,8 +143,6 @@ int main() {
               next_vals = trajWIP.getNextPathTrajectory(car_s, car_d,lane , planner.egoVehicle.getSpeed() , ref_vel, time);
               next_vals = trajWIP.mergeTrajectories(previous_path_x, previous_path_y, end_path_s, end_path_d, next_vals);
 
-//              cout << "exiting...." << endl;
-//              exit(0);
             } else {
               next_vals = trajWIP.mergeTrajectories(previous_path_x, previous_path_y, end_path_s, end_path_d, next_vals);
             }
@@ -156,16 +150,8 @@ int main() {
             next_vals = trajectory.calcTrajFromQA(planner.egoVehicle, ref_vel*2.237, lane);
           }
 
-          // counter++;
-          // if (counter > 1000) {
-          //   cout << "exiting...." << endl;
-          //   exit(0);
-          // }
-     
-
           t = tmr.elapsed();
-          std::cout << "Time for trajectory update in (ms) " <<  t << endl;
-
+          spdlog::get("console")->debug("Time for trajectory update: {} ms",t);
 
     		  json msgJson;
 

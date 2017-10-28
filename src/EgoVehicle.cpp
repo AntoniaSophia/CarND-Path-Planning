@@ -126,7 +126,7 @@ void EgoVehicle::update(json j) {
 void EgoVehicle::calculatePredictions(int predictionHorizon) {
   // first clear all current prediction
   predictions.clear();
-  cout << "size of EgoVehicle predictions : "  << predictions.size() << endl;
+  spdlog::get("console")->debug("size of EgoVehicle predictions : {}", predictions.size());
 }
 
 /**
