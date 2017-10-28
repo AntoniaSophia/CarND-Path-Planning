@@ -31,7 +31,7 @@ Now coming to the main criteria of my implementation:
   - the possible 5 basic maneuvrs are "do nothing" , "Accelerate", "Decelerate", "Change to left lane, "Change to right lane"
   - so that means that for 5 basic maneuvr and a prediction horizon of 4 seconds already `5⁴ = 3125` situations could evolve in worst case which  all have to be evaluated according to cost functions
 
-*  limitations of this Behavior planner approach:
+* limitations of this Behavior planner approach:
   - it does not work in 20ms for deeper calculations
   - predictions of other vehicles are simple (no lane change currently)
   - no acceleration/deceleration of other vehicles is considered (would make it even more complex!)
