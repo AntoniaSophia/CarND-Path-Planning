@@ -156,8 +156,8 @@ vector<vector<double>> TrajectoryPlannerWIP::getNextPathTrajectory(double start_
   vector<double> nextEndpoint;
   double target_speed;
 
-  if (ref_speed > 20) {
-    target_speed = 20;
+  if (ref_speed > 20.5) {
+    target_speed = 20.5;
   } else if (ref_speed < 0) {
     target_speed = 0;
   } else {
