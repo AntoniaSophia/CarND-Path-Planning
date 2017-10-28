@@ -141,14 +141,14 @@ int main() {
           
 
           vector<vector<double>> next_vals{{},{}};
-          bool takeSpline = true;
+          bool takeSpline = false;
 
           if (takeSpline == false) {
             if (previous_path_x.size()==0 && counter == 0) {
               next_vals = trajWIP.getNextPathTrajectory(car_s, car_d,lane , 0, ref_vel, 2);
               next_vals = trajWIP.mergeTrajectories(previous_path_x, previous_path_y, end_path_s, end_path_d, next_vals);
-            } else if (previous_path_x.size() < 20) {
-              int time = 1;
+            } else if (previous_path_x.size() < 25) {
+              int time = 2;
               if (planner.stm_lane_change_completed() == false) {
                 time = 3;
               }

@@ -40,6 +40,8 @@ class BehaviorPlanner{
     bool stm_is_in_lane_change;
     bool stm_ready_for_lane_change;
  
+    bool isLaneChangeSafe(int lane);
+
     double evaluateLane_Weight = 0.0;
     double evaluateSafetyDistance_Weight = 10.0;
     double evaluateSpeed_Weight = 1.0;

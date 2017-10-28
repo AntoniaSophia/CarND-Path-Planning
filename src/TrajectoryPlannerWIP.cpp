@@ -104,8 +104,8 @@ vector<vector<double>> TrajectoryPlannerWIP::getNextPathTrajectory(double start_
   vector<double> nextEndpoint;
   double target_speed;
 
-  if (ref_speed > 19) {
-    target_speed = 19;
+  if (ref_speed > 20) {
+    target_speed = 20;
   } else if (ref_speed < 0) {
     target_speed = 0;
   } else {
@@ -116,10 +116,10 @@ vector<vector<double>> TrajectoryPlannerWIP::getNextPathTrajectory(double start_
   
   //cout << "Acceleration : "  << acceleration << endl;
 
-  if (acceleration > 8) {
-    target_speed = current_speed + 8;
-  } else if (acceleration < -8) {
-    target_speed = current_speed - 8;
+  if (acceleration > 6) {
+    target_speed = current_speed + 6;
+  } else if (acceleration < -6) {
+    target_speed = current_speed - 6;
   }
 
 
@@ -137,7 +137,6 @@ vector<vector<double>> TrajectoryPlannerWIP::getNextPathTrajectory(double start_
     nextEndpoint = predictNextEndpoint(start_s_JMT[0] , start_d_JMT[0] , target_lane , current_speed , target_speed , Time);
   }
   
-
   end_s_JMT = {nextEndpoint[0] , target_speed , 0};
   end_d_JMT = {nextEndpoint[1] , 0 , 0};
   
@@ -165,11 +164,11 @@ vector<vector<double>> TrajectoryPlannerWIP::getNextPathTrajectory(double start_
     t += steps;
     double next_s_val = coeffs_s[0] + coeffs_s[1]*t + coeffs_s[2]*pow(t,2.0) 
                         + coeffs_s[3]*pow(t,3.0) + coeffs_s[4]*pow(t,4.0) + coeffs_s[5]*pow(t,5.0);
-    next_s_vals.push_back(next_s_val);
+    next_s_vals.push_back(fmod(next_s_val,max_s));
 
     double next_d_val = coeffs_d[0] + coeffs_d[1]*t + coeffs_d[2]*pow(t,2.0) 
                         + coeffs_d[3]*pow(t,3.0) + coeffs_d[4]*pow(t,4.0) + coeffs_d[5]*pow(t,5.0);
-    next_d_vals.push_back(next_d_val);
+    next_d_vals.push_back(fmod(next_d_val,max_d));
   }
 
   vector<vector<double>> next_vals{{},{}};

@@ -29,6 +29,7 @@ public:
 protected:
   string map_file_ = "../data/highway_map.csv";
   double max_s = 6945.554;
+  double max_d = 12.0;
   vector<double> maps_x;
   vector<double> maps_y;
   vector<double> maps_s;
