@@ -1,18 +1,41 @@
+/*
+    Copyright (c) 2017 Antonia Reiter
+
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the "Software"),
+    to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+    OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+    OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 #include "TrajectoryPlannerWIP.h"
-#include "EgoVehicle.h"
 #include "helper.h"
-#include "spline.h"
 #include <fstream>
 #include <iostream>
-#include <math.h>
-#include <vector>
 #include <cmath>
 #include "Dense"
+#include "spdlog/spdlog.h"
 
-using namespace std;
+using std::vector;
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 
+/**
+ * @brief load map into class
+ * 
+ */
 void TrajectoryPlannerWIP::loadMap() {
   ifstream in_map_(map_file_.c_str(), ifstream::in);
 
@@ -43,7 +66,14 @@ void TrajectoryPlannerWIP::loadMap() {
   this->wp_spline_dy.set_points(maps_s, maps_dy);  
 }
 
-// Transform from Frenet s,d coordinates to Cartesian x,y
+
+/**
+ * @brief Transform from Frenet s,d coordinates to Cartesian x,y
+ * 
+ * @param s 
+ * @param d 
+ * @return vector<double> 
+ */
 vector<double> TrajectoryPlannerWIP::getXY(double s, double d) {
   int prev_wp = -1;
 
@@ -69,6 +99,17 @@ vector<double> TrajectoryPlannerWIP::getXY(double s, double d) {
   return {x, y};
 }
 
+/**
+ * @brief predict next end point
+ * 
+ * @param start_s 
+ * @param start_d 
+ * @param lane 
+ * @param current_speed 
+ * @param ref_speed 
+ * @param Time 
+ * @return vector<double> 
+ */
 vector<double> TrajectoryPlannerWIP::predictNextEndpoint(double start_s, double start_d, 
                                                       double lane, double current_speed,
                                                       double ref_speed, double Time) {
@@ -83,13 +124,13 @@ vector<double> TrajectoryPlannerWIP::predictNextEndpoint(double start_s, double 
     result_d = 10;
   } else {
     // TODO: proper error handling
-    cout << "Error in TrajectoryPlannerWIP::predictNextEndpoint" << endl;
+    spdlog::get("console")->error("Error in TrajectoryPlannerWIP::predictNextEndpoint");
     exit(0);
   }
 
   double acceleration = (ref_speed - current_speed)/Time;
 
-  cout << "Current Speed: " << current_speed << " | Ref_Speed: " << ref_speed << "  --> Acceleration: " << acceleration << endl;
+  spdlog::get("console")->debug("Current Speed: {} | Ref_Speed: {} --> Acceleration: {}",current_speed, ref_speed, acceleration);
 
   result_s = start_s + (Time * current_speed) + 0.5*acceleration*pow(Time,2);
 
@@ -97,6 +138,17 @@ vector<double> TrajectoryPlannerWIP::predictNextEndpoint(double start_s, double 
   return result;
 }
 
+/**
+ * @brief get next path trajectory
+ * 
+ * @param start_s 
+ * @param start_d 
+ * @param target_lane 
+ * @param current_speed 
+ * @param ref_speed 
+ * @param Time 
+ * @return vector<vector<double>> 
+ */
 vector<vector<double>> TrajectoryPlannerWIP::getNextPathTrajectory(double start_s, double start_d, 
                                              double target_lane, double current_speed, 
                                              double ref_speed, double Time) {
@@ -114,8 +166,6 @@ vector<vector<double>> TrajectoryPlannerWIP::getNextPathTrajectory(double start_
 
   double acceleration = (target_speed - current_speed)/Time;
   
-  //cout << "Acceleration : "  << acceleration << endl;
-
   if (acceleration > 6) {
     target_speed = current_speed + 6;
   } else if (acceleration < -6) {
@@ -140,14 +190,14 @@ vector<vector<double>> TrajectoryPlannerWIP::getNextPathTrajectory(double start_
   end_s_JMT = {nextEndpoint[0] , target_speed , 0};
   end_d_JMT = {nextEndpoint[1] , 0 , 0};
   
-  //cout << "start_s = " << start_s << "  |  target_speed = " << target_speed << "  | ACC = " << acceleration << endl;
-  //cout << "start_d = " << start_d << "  |  end_d = " << nextEndpoint[1] << endl;
+  spdlog::get("console")->debug("start_s = {} | target_speed = {} | ACC = {}",start_s, target_speed, acceleration);
+  spdlog::get("console")->debug("start_d = {} | end_d = {}", start_d, nextEndpoint[1]);
 
-  //cout << "start_s = " << start_s_JMT[0] << "  |  start_s_dot = " <<  start_s_JMT[1] << "  | start_s_dot_dot = " <<  start_s_JMT[2] << endl;
-  //cout << "end_s = " << end_s_JMT[0] << "  |  end_s_dot = " <<  end_s_JMT[1] << "  | end_s_dot_dot = " <<  end_s_JMT[2] << endl;
+  spdlog::get("console")->debug("start_s = {} | start_s_dot = {} | start_s_dot_dot = {}",start_s_JMT[0], start_s_JMT[1], start_s_JMT[2]);
+  spdlog::get("console")->debug("end_s = {} | end_s_dot = {} | end_s_dot_dot = {}",end_s_JMT[0], end_s_JMT[1], end_s_JMT[2]);
   
-  //cout << "start_d = " << start_d_JMT[0] << "  |  start_d_dot = " <<  start_d_JMT[1] << "  | start_d_dot_dot = " <<  start_d_JMT[2] << endl;
-  //cout << "end_d = " << end_d_JMT[0] << "  |  end_d_dot = " <<  end_d_JMT[1] << "  | end_d_dot_dot = " <<  end_d_JMT[2] << endl;
+  spdlog::get("console")->debug("start_d = {} | start_d_dot = {} | start_d_dot_dot = {}",start_d_JMT[0], start_d_JMT[1], start_d_JMT[2]);
+  spdlog::get("console")->debug("end_d = {} | end_d_dot = {} | end_d_dot_dot = {}",end_d_JMT[0], end_d_JMT[1], end_d_JMT[2]);
 
   coeffs_s = this->JMT(start_s_JMT,end_s_JMT,Time);
   coeffs_d = this->JMT(start_d_JMT,end_d_JMT,Time);
@@ -181,8 +231,8 @@ vector<vector<double>> TrajectoryPlannerWIP::getNextPathTrajectory(double start_
     next_x_vals.push_back(xy[0]);
     next_y_vals.push_back(xy[1]);
 
-    //cout << "x: " << xy[0] << " | y:" << xy[1] << endl;
-    //cout << "s: " << next_s_vals[i] << " | d:" << next_d_vals[i] << endl;
+    spdlog::get("console")->debug("x: {} | y: {}", xy[0], xy[1]);
+    spdlog::get("console")->debug("s: {} | d: {}",next_s_vals[i], next_d_vals[i]);
   }
 
   next_vals[0] = next_x_vals;
@@ -190,7 +240,16 @@ vector<vector<double>> TrajectoryPlannerWIP::getNextPathTrajectory(double start_
   return next_vals;
 }
 
-
+/**
+ * @brief merge the trajectories 
+ * 
+ * @param previous_path_x 
+ * @param previous_path_y 
+ * @param end_path_s 
+ * @param end_path_d 
+ * @param newTraj 
+ * @return vector<vector<double>> 
+ */
 vector<vector<double>> TrajectoryPlannerWIP::mergeTrajectories(vector<double> previous_path_x,
                                           vector<double> previous_path_y,
                                           double end_path_s , double end_path_d,    
@@ -215,7 +274,8 @@ vector<vector<double>> TrajectoryPlannerWIP::mergeTrajectories(vector<double> pr
     for (int i = 0; i < newTraj[0].size() ; i++) {
       result_x.push_back(newTraj[0][i]);
       result_y.push_back(newTraj[1][i]);
-      //cout << "adding point x: " << newTraj[0][i] << " | y:" << newTraj[0][i] << endl;
+      spdlog::get("console")->debug("adding point x: {} | y: {}", newTraj[0][i] ,newTraj[0][i]);
+      //cout << 
     }
   }
   
@@ -223,10 +283,10 @@ vector<vector<double>> TrajectoryPlannerWIP::mergeTrajectories(vector<double> pr
   result.push_back(result_x);
   result.push_back(result_y);
 
-  //cout << "Merged Trajectory consists of  " << result_x.size()  << " points " << endl;
+  spdlog::get("console")->debug("Merged Trajectory consists of {} points ", result_x.size());
 
   for (int i = 0; i < result[0].size() ; i++) {
-    //cout << "Merged Trajectory: x = " << result[0][i]  << " | y = " << result[1][i] << endl;
+    spdlog::get("console")->debug("Merged Trajectory: x = {} | y = {}", result[0][i], result[1][i]);
   }
 
 
@@ -235,7 +295,14 @@ vector<vector<double>> TrajectoryPlannerWIP::mergeTrajectories(vector<double> pr
 
 
 
-
+/**
+ * @brief JMT from Udacity 
+ * 
+ * @param start 
+ * @param end 
+ * @param T 
+ * @return vector<double> 
+ */
 vector<double> TrajectoryPlannerWIP::JMT(vector< double> start, vector <double> end, double T)
 {
     /*
@@ -287,7 +354,13 @@ vector<double> TrajectoryPlannerWIP::JMT(vector< double> start, vector <double> 
 }
 
 
-// Transform from Cartesian x,y coordinates to Frenet s,d coordinates
+/**
+ * @brief Transform from Cartesian x,y coordinates to Frenet s,d coordinates
+ * 
+ * @param x 
+ * @param y 
+ * @return vector<double> 
+ */
 vector<double> TrajectoryPlannerWIP::getFrenet(double x, double y) {
 
 int next_wp = NextWaypoint(x, y);
@@ -332,7 +405,13 @@ frenet_s += distance(0, 0, proj_x, proj_y);
 return {frenet_s, frenet_d};
 }
 
-
+/**
+ * @brief get next waypoint
+ * 
+ * @param x 
+ * @param y 
+ * @return int 
+ */
 int TrajectoryPlannerWIP::NextWaypoint(double x, double y) {
 
   int closestWaypoint = ClosestWaypoint(x, y);
@@ -365,6 +444,13 @@ int TrajectoryPlannerWIP::NextWaypoint(double x, double y) {
   return closestWaypoint;
 }
 
+/**
+ * @brief get closest waypoint 
+ * 
+ * @param x 
+ * @param y 
+ * @return int 
+ */
 int TrajectoryPlannerWIP::ClosestWaypoint(double x, double y) {
   double closestLen = 100000; // large number
   int closestWaypoint = 0;
@@ -382,6 +468,13 @@ int TrajectoryPlannerWIP::ClosestWaypoint(double x, double y) {
 return closestWaypoint;
 }
 
+/**
+ * @brief 
+ * 
+ * @param s 
+ * @param d 
+ * @return vector<double> 
+ */
 vector<double> TrajectoryPlannerWIP::getXY_JMT(double s, double d){
   double wp_x, wp_y, wp_dx, wp_dy, next_x, next_y;
 
