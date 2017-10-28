@@ -225,14 +225,14 @@ vector<vector<vector<double>>> BehaviorPlanner::iteratePredictions(vector<double
   // change to left lane
   *****************************/
   if (currentLane > 0) {
-    if (currentSecond > 0 || (currentSecond = 0 && isLaneChangeSafe(currentLane-1) == true)) {
+    if (currentSecond > 0 || (currentSecond == 0 && isLaneChangeSafe(currentLane-1) == true)) {
       nextPrediction.push_back(currentFrenet_d - 4);
       nextPrediction.push_back(currentFrenet_s + currentSpeed - 1); // speed is in meters per second!
       nextPrediction.push_back(currentLane-1);
       nextPrediction.push_back(currentSpeed);
       nextPrediction.push_back(currentSecond+1);
       nextPrediction.push_back(3);
-      nextPrediction.push_back(evaluateSituation(nextPrediction,currentSecond+1)+0.05);
+      nextPrediction.push_back(evaluateSituation(nextPrediction,currentSecond+1)+0.15);
         
       history.push_back(nextPrediction);
       result.push_back(vector<vector<double>>(history));
@@ -245,14 +245,14 @@ vector<vector<vector<double>>> BehaviorPlanner::iteratePredictions(vector<double
   // change to right lane
   *****************************/
   if (currentLane < 2) {
-    if (currentSecond > 0 || (currentSecond = 0 && isLaneChangeSafe(currentLane+1) == true)) {
+    if (currentSecond > 0 || (currentSecond == 0 && isLaneChangeSafe(currentLane+1) == true)) {
       nextPrediction.push_back(currentFrenet_d + 4);
       nextPrediction.push_back(currentFrenet_s + currentSpeed - 1); // speed is in meters per second!
       nextPrediction.push_back(currentLane+1);
       nextPrediction.push_back(currentSpeed);
       nextPrediction.push_back(currentSecond+1);
       nextPrediction.push_back(4);
-      nextPrediction.push_back(evaluateSituation(nextPrediction,currentSecond+1)+0.05);
+      nextPrediction.push_back(evaluateSituation(nextPrediction,currentSecond+1)+0.15);
         
       history.push_back(nextPrediction);
       result.push_back(vector<vector<double>>(history));
@@ -288,15 +288,64 @@ bool BehaviorPlanner::isLaneChangeSafe(int lane) {
     return false;
   }
 
-  // First check wheter we are too close to a vehicle in front of us
+  /*******************************************************
+  // First check whether we are too close to a vehicle in front of us
+  ********************************************************/
   double closestDistanceInLane = 7000;
+  double speedOfClosestObjectInLane = 100;
 
   for(auto it = sensorObjects.begin(); it != sensorObjects.end(); ++it) {
     if (it->second.getLane() == egoVehicle.getLane()) {
+      double distance = fmod(it->second.getFrenet_s() - egoVehicle.getFrenet_s() + 6945.554, 6945.554);
+
+      if (distance < closestDistanceInLane) {
+        closestDistanceInLane = distance;
+        speedOfClosestObjectInLane = it->second.getSpeed();
+      }
+    }
+  }   
+
+  // if too close and too fast do not change lane because of danger of crash
+  if (closestDistanceInLane < 30 && (egoVehicle.getSpeed() - speedOfClosestObjectInLane) > 10) {
+    return false;
+  }
+
+  /*******************************************************
+  // Second check whether we are too close to a vehicle in target lane
+  ********************************************************/
+  double closestDistanceInTargetLaneInFront = 7000;
+  double closestDistanceInTargetLaneInBack = 7000;
+  double speedOfClosestObjectInTargetInFront = 100;
+  double speedOfClosestObjectInTargetInBack = 100;
+  
+  for(auto it = sensorObjects.begin(); it != sensorObjects.end(); ++it) {
+    if (it->second.getLane() == lane) {
+      double distanceInFront = fmod(it->second.getFrenet_s() - egoVehicle.getFrenet_s() + 6945.554, 6945.554);
+      double distanceInBack = fmod(egoVehicle.getFrenet_s() - it->second.getFrenet_s()  + 6945.554, 6945.554);
+      
+      if (distanceInFront < closestDistanceInTargetLaneInFront) {
+        closestDistanceInTargetLaneInFront = distanceInFront;
+        speedOfClosestObjectInTargetInFront = it->second.getSpeed();
+      }
+
+      if (distanceInBack < closestDistanceInTargetLaneInBack) {
+        closestDistanceInTargetLaneInBack = distanceInBack;
+        speedOfClosestObjectInTargetInBack = it->second.getSpeed();
+      }
 
     }
   }   
-  
+
+  // if too close and too fast do not change lane because of danger of crash
+  if (closestDistanceInTargetLaneInFront < 30 && (egoVehicle.getSpeed() - speedOfClosestObjectInTargetInFront) > 10) {
+    return false;
+  }
+
+  // if too close and too slow do not change lane because of danger of crash
+  if (closestDistanceInTargetLaneInBack < 30 && (egoVehicle.getSpeed() - speedOfClosestObjectInTargetInBack) < 10) {
+    return false;
+  }
+
   return true;
 }
 
