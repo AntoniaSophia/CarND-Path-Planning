@@ -168,7 +168,7 @@ vector<vector<double>> TrajectoryPlannerWIP::getNextPathTrajectory(double start_
 
     double next_d_val = coeffs_d[0] + coeffs_d[1]*t + coeffs_d[2]*pow(t,2.0) 
                         + coeffs_d[3]*pow(t,3.0) + coeffs_d[4]*pow(t,4.0) + coeffs_d[5]*pow(t,5.0);
-    next_d_vals.push_back(fmod(next_d_val,max_d));
+    next_d_vals.push_back(next_d_val);
   }
 
   vector<vector<double>> next_vals{{},{}};
@@ -177,12 +177,17 @@ vector<vector<double>> TrajectoryPlannerWIP::getNextPathTrajectory(double start_
   
   for(int i = 0 ; i < next_s_vals.size() ; i++) {
     vector<double> xy;
-    xy = getXY_JMT(next_s_vals[i],next_d_vals[i]);
-    next_x_vals.push_back(xy[0]);
-    next_y_vals.push_back(xy[1]);
+    vector<double> xy1;
+    if (next_s_vals[i] < 6900) {
+      xy = getXY_JMT(next_s_vals[i],next_d_vals[i]);
+      next_x_vals.push_back(xy[0]);
+      next_y_vals.push_back(xy[1]);
+    }
 
-    //cout << "x: " << xy[0] << " | y:" << xy[1] << endl;
-    //cout << "s: " << next_s_vals[i] << " | d:" << next_d_vals[i] << endl;
+    if (next_s_vals[i] > 6800 || next_s_vals[i] < 100) {
+      cout << "x: " << xy[0] << " | y:" << xy[1] << endl;
+      cout << "s: " << next_s_vals[i] << " | d:" << next_d_vals[i] << endl;
+    }
   }
 
   next_vals[0] = next_x_vals;
@@ -223,10 +228,12 @@ vector<vector<double>> TrajectoryPlannerWIP::mergeTrajectories(vector<double> pr
   result.push_back(result_x);
   result.push_back(result_y);
 
-  //cout << "Merged Trajectory consists of  " << result_x.size()  << " points " << endl;
+  if (end_path_s > 6800) {
+    cout << "Merged Trajectory consists of  " << result_x.size()  << " points " << endl;
 
-  for (int i = 0; i < result[0].size() ; i++) {
-    //cout << "Merged Trajectory: x = " << result[0][i]  << " | y = " << result[1][i] << endl;
+    for (int i = 0; i < result[0].size() ; i++) {
+      cout << "Merged Trajectory: x = " << result[0][i]  << " | y = " << result[1][i] << endl;
+    }
   }
 
 
