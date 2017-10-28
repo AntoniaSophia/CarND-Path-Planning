@@ -68,6 +68,4 @@ class BehaviorPlanner{
     double evaluateSpeed_Weight = 1.0;
     double evaluateFrenet_d_Weight = 0.0;
 
-    vector<vector<vector<double>>> iteratePredictions(vector<double> start , vector<vector<double>> history, int predictionHorizon);
-  
 };
