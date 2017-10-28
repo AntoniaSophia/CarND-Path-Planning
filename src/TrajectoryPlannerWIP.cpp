@@ -68,38 +68,6 @@ void TrajectoryPlannerWIP::loadMap() {
 
 
 /**
- * @brief Transform from Frenet s,d coordinates to Cartesian x,y
- * 
- * @param s 
- * @param d 
- * @return vector<double> 
- */
-vector<double> TrajectoryPlannerWIP::getXY(double s, double d) {
-  int prev_wp = -1;
-
-  while (s > maps_s[prev_wp + 1] && (prev_wp < (int)(maps_s.size() - 1))) {
-    prev_wp++;
-  }
-
-  int wp2 = (prev_wp + 1) % maps_x.size();
-
-  double heading =
-      atan2((maps_y[wp2] - maps_y[prev_wp]), (maps_x[wp2] - maps_x[prev_wp]));
-  // the x,y,s along the segment
-  double seg_s = (s - maps_s[prev_wp]);
-
-  double seg_x = maps_x[prev_wp] + seg_s * cos(heading);
-  double seg_y = maps_y[prev_wp] + seg_s * sin(heading);
-
-  double perp_heading = heading - pi() / 2;
-
-  double x = seg_x + d * cos(perp_heading);
-  double y = seg_y + d * sin(perp_heading);
-
-  return {x, y};
-}
-
-/**
  * @brief predict next end point
  * 
  * @param start_s 
@@ -155,6 +123,7 @@ vector<vector<double>> TrajectoryPlannerWIP::getNextPathTrajectory(double start_
   vector<double> nextEndpoint;
   double target_speed;
 
+  // limit the maximum speed
   if (ref_speed > 20.5) {
     target_speed = 20.5;
   } else if (ref_speed < 0) {
@@ -165,13 +134,14 @@ vector<vector<double>> TrajectoryPlannerWIP::getNextPathTrajectory(double start_
 
   double acceleration = (target_speed - current_speed)/Time;
   
+  // limit the maximum acceleration
   if (acceleration > 6) {
     target_speed = current_speed + 6;
   } else if (acceleration < -6) {
     target_speed = current_speed - 6;
   }
 
-
+  // now do the JMT calculation
   vector<double> coeffs_s;
   vector<double> coeffs_d;
   int numberOfPoints = Time * 50 + 1;
@@ -209,11 +179,11 @@ vector<vector<double>> TrajectoryPlannerWIP::getNextPathTrajectory(double start_
   vector<double> next_s_vals;
   vector<double> next_d_vals;
   
-  for(int i = 1 ; i < numberOfPoints ; i++) {
+  for( int i = 1 ; i < numberOfPoints ; i++) {
     t += steps;
     double next_s_val = coeffs_s[0] + coeffs_s[1]*t + coeffs_s[2]*pow(t,2.0) 
                         + coeffs_s[3]*pow(t,3.0) + coeffs_s[4]*pow(t,4.0) + coeffs_s[5]*pow(t,5.0);
-    next_s_vals.push_back(fmod(next_s_val,max_s));
+    next_s_vals.push_back(fmod(next_s_val,max_s)); // fmod is needed because of the max length of the course
 
     double next_d_val = coeffs_d[0] + coeffs_d[1]*t + coeffs_d[2]*pow(t,2.0) 
                         + coeffs_d[3]*pow(t,3.0) + coeffs_d[4]*pow(t,4.0) + coeffs_d[5]*pow(t,5.0);
@@ -227,11 +197,9 @@ vector<vector<double>> TrajectoryPlannerWIP::getNextPathTrajectory(double start_
   for(int i = 0 ; i < next_s_vals.size() ; i++) {
     vector<double> xy;
     vector<double> xy1;
-    if (next_s_vals[i] < 6900) {
-      xy = getXY_JMT(next_s_vals[i],next_d_vals[i]);
-      next_x_vals.push_back(xy[0]);
-      next_y_vals.push_back(xy[1]);
-    }
+    xy = getXY_JMT(next_s_vals[i],next_d_vals[i]);
+    next_x_vals.push_back(xy[0]);
+    next_y_vals.push_back(xy[1]);
 
     if (next_s_vals[i] > 6800 || next_s_vals[i] < 100) {
       spdlog::get("console")->info("x: {} | y = {}", xy[0], xy[1]);
@@ -359,120 +327,6 @@ vector<double> TrajectoryPlannerWIP::JMT(vector< double> start, vector <double> 
     
 }
 
-
-/**
- * @brief Transform from Cartesian x,y coordinates to Frenet s,d coordinates
- * 
- * @param x 
- * @param y 
- * @return vector<double> 
- */
-vector<double> TrajectoryPlannerWIP::getFrenet(double x, double y) {
-
-int next_wp = NextWaypoint(x, y);
-
-int prev_wp;
-prev_wp = next_wp - 1;
-if (next_wp == 0) {
-prev_wp = maps_x.size() - 1;
-}
-
-double n_x = maps_x[next_wp] - maps_x[prev_wp];
-double n_y = maps_y[next_wp] - maps_y[prev_wp];
-double x_x = x - maps_x[prev_wp];
-double x_y = y - maps_y[prev_wp];
-
-// find the projection of x onto n
-double proj_norm = (x_x * n_x + x_y * n_y) / (n_x * n_x + n_y * n_y);
-double proj_x = proj_norm * n_x;
-double proj_y = proj_norm * n_y;
-
-double frenet_d = distance(x_x, x_y, proj_x, proj_y);
-
-// see if d value is positive or negative by comparing it to a center point
-
-double center_x = 1000 - maps_x[prev_wp];
-double center_y = 2000 - maps_y[prev_wp];
-double centerToPos = distance(center_x, center_y, x_x, x_y);
-double centerToRef = distance(center_x, center_y, proj_x, proj_y);
-
-if (centerToPos <= centerToRef) {
-frenet_d *= -1;
-}
-
-// calculate s value
-double frenet_s = 0;
-for (int i = 0; i < prev_wp; i++) {
-frenet_s += distance(maps_x[i], maps_y[i], maps_x[i + 1], maps_y[i + 1]);
-}
-
-frenet_s += distance(0, 0, proj_x, proj_y);
-
-return {frenet_s, frenet_d};
-}
-
-/**
- * @brief get next waypoint
- * 
- * @param x 
- * @param y 
- * @return int 
- */
-int TrajectoryPlannerWIP::NextWaypoint(double x, double y) {
-
-  int closestWaypoint = ClosestWaypoint(x, y);
-
-  double map_x = maps_x[closestWaypoint];
-  double map_y = maps_y[closestWaypoint];
-
-  // heading vector
-  double hx = map_x - x;
-  double hy = map_y - y;
-
-  // Normal vector:
-  double nx = maps_dx[closestWaypoint];
-  double ny = maps_dy[closestWaypoint];
-
-  // Vector into the direction of the road (perpendicular to the normal vector)
-  double vx = -ny;
-  double vy = nx;
-
-  // If the inner product of v and h is positive then we are behind the waypoint
-  // so we do not need to
-  // increment closestWaypoint, otherwise we are beyond the waypoint and we need
-  // to increment closestWaypoint.
-
-  double inner = hx * vx + hy * vy;
-  if (inner < 0.0) {
-    closestWaypoint++;
-  }
-
-  return closestWaypoint;
-}
-
-/**
- * @brief get closest waypoint 
- * 
- * @param x 
- * @param y 
- * @return int 
- */
-int TrajectoryPlannerWIP::ClosestWaypoint(double x, double y) {
-  double closestLen = 100000; // large number
-  int closestWaypoint = 0;
-
-  for (int i = 0; i < maps_x.size(); i++) {
-  double map_x = maps_x[i];
-  double map_y = maps_y[i];
-  double dist = distance(x, y, map_x, map_y);
-  if (dist < closestLen) {
-    closestLen = dist;
-    closestWaypoint = i;
-  }
-}
-
-return closestWaypoint;
-}
 
 /**
  * @brief 

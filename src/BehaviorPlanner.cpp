@@ -205,13 +205,13 @@ BehaviorPlanner::iteratePredictions(vector<double> start,
                                     int predictionHorizon) {
   /**
    * \note what is required for a prediction?
+   * vector has following elements
    * - frenet_d   [0]
    * - frenet_s   [1]
    * - lane       [2]
    * - speed      [3]
    * - second     [4]
-   * - maneuvr    [5]  (0 = do nothing , 1 = acc , 2 = decc , 3 = left , 4 =
-   * right )
+   * - maneuvr    [5]  (0 = do nothing , 1 = acc , 2 = decc , 3 = left , 4 = right )
    * - evaluation [6]
    */
   double currentFrenet_d = start[0];
@@ -243,10 +243,12 @@ BehaviorPlanner::iteratePredictions(vector<double> start,
   /*****************************
   // accelerate (maximum 10m/s²)
   *****************************/
-  if (currentSpeed < egoVehicle.getRefSpeed()) {
-    double acc = 7;
+  if (currentSpeed < egoVehicle.getRefSpeed() && isLaneChangeSafe(currentLane) == true) {
+    // TODO: using isLaneChangeSafe() for current lane is a quick hack....
+    // should be separate method instead!!
+    double acc = 5;
     double speedDiff = egoVehicle.getRefSpeed() - currentSpeed;
-    if (speedDiff < 7) {
+    if (speedDiff < 5) {
       acc = speedDiff;
     }
 
@@ -298,7 +300,7 @@ BehaviorPlanner::iteratePredictions(vector<double> start,
       nextPrediction.push_back(currentSpeed);
       nextPrediction.push_back(currentSecond+1);
       nextPrediction.push_back(3);
-      nextPrediction.push_back(evaluateSituation(nextPrediction,currentSecond+1)+0.15);
+      nextPrediction.push_back(evaluateSituation(nextPrediction,currentSecond+1)+0.10);  // punish a lane change if unmotivated
         
       history.push_back(nextPrediction);
       result.push_back(vector<vector<double>>(history));
@@ -318,7 +320,7 @@ BehaviorPlanner::iteratePredictions(vector<double> start,
       nextPrediction.push_back(currentSpeed);
       nextPrediction.push_back(currentSecond+1);
       nextPrediction.push_back(4);
-      nextPrediction.push_back(evaluateSituation(nextPrediction,currentSecond+1)+0.15);
+      nextPrediction.push_back(evaluateSituation(nextPrediction,currentSecond+1)+0.10); // punish a lane change if unmotivated
         
       history.push_back(nextPrediction);
       result.push_back(vector<vector<double>>(history));
@@ -346,12 +348,16 @@ BehaviorPlanner::iteratePredictions(vector<double> start,
 }
 
 bool BehaviorPlanner::isLaneChangeSafe(int lane) {
+  bool sameLane = false; 
+  // TODO: remove sameLane in order to handle this in a separate method
+  // this is a quick hack
+
   if (egoVehicle.getLane() - lane > 1) {
     // TODO: error handling --> no jump in lane change....
     return false;
   } else if (egoVehicle.getLane() - lane == 0) {
-    // TODO: error handling --> no lane change !?
-    return false;
+    // nothing to do - can be also used for acceleration
+    sameLane = true;
   }
 
   /*******************************************************
@@ -372,8 +378,12 @@ bool BehaviorPlanner::isLaneChangeSafe(int lane) {
   }   
 
   // if too close and too fast do not change lane because of danger of crash
-  if (closestDistanceInLane < 30 && (egoVehicle.getSpeed() - speedOfClosestObjectInLane) > 10) {
+  if (closestDistanceInLane < 35 && (egoVehicle.getSpeed() - speedOfClosestObjectInLane) > 10) {
     return false;
+  }
+
+  if (sameLane == true) {
+    return true;
   }
 
   /*******************************************************
@@ -403,12 +413,12 @@ bool BehaviorPlanner::isLaneChangeSafe(int lane) {
   }   
 
   // if too close and too fast do not change lane because of danger of crash
-  if (closestDistanceInTargetLaneInFront < 30 && (egoVehicle.getSpeed() - speedOfClosestObjectInTargetInFront) > 10) {
+  if (closestDistanceInTargetLaneInFront < 35 && (egoVehicle.getSpeed() - speedOfClosestObjectInTargetInFront) > 10) {
     return false;
   }
 
   // if too close and too slow do not change lane because of danger of crash
-  if (closestDistanceInTargetLaneInBack < 30 && (egoVehicle.getSpeed() - speedOfClosestObjectInTargetInBack) < 10) {
+  if (closestDistanceInTargetLaneInBack < 35 && (egoVehicle.getSpeed() - speedOfClosestObjectInTargetInBack) < 10) {
     return false;
   }
 
@@ -541,7 +551,17 @@ BehaviorPlanner::evaluateSafetyDistance(vector<double> egoPrediction,
   }
 
   // ok, now assume the distance is smaller than the safety distance
-  result = 1.0/distance;
+
+  // only punish situations where ego is approaching another vehicle
+  if (egoPrediction[1] < objectPrediction[1]) {
+    result = 1.0/distance;
+  } else {
+    if (egoPrediction[3] < 10) {
+      return 0.1;
+    } else {
+      return 0.5;
+    }
+  }
   return result * evaluateSafetyDistance_Weight;
 }
 
@@ -559,7 +579,7 @@ double BehaviorPlanner::evaluateSpeed(vector<double> egoPrediction,
   double speedDiff = abs(refSpeed - egoPrediction[3]);
 
   if (refSpeed > egoPrediction[3]) {
-    result = abs(speedDiff) / 100.0;
+    result = abs(speedDiff) / 20.0;
   } else {
     result = abs(speedDiff) / 100.0;
   }

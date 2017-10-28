@@ -115,13 +115,14 @@ int main() {
           tmr.reset();
           planner.evaluateSituation();
           
-          vector<double> proposedPath = planner.predictSituation(4);
+          vector<double> proposedPath = planner.predictSituation(4);  // predicts the future of 4 seconds
           spdlog::get("console")->info("Planner --> d:  {} | s:  {} | lane:  {} | speed: {} | second: {} | maneuvr: {} | eval: {}",
             proposedPath[0], proposedPath[1], proposedPath[2], proposedPath[3], proposedPath[4], man_str[(int)proposedPath[5]], proposedPath[6]
         );
 
           vector<double> maneuvrData;
-          maneuvrData = planner.getManeuvrDataForTrajectory(proposedPath);
+          maneuvrData = planner.getManeuvrDataForTrajectory(proposedPath); // choose best maneuvr sequence for trajectory calculation
+
 
           double ref_vel = maneuvrData[1];
           int lane = maneuvrData[0];    
@@ -129,13 +130,17 @@ int main() {
           
 
           vector<vector<double>> next_vals{{},{}};
-          bool takeSpline = true;
+          bool takeSpline = true;  // set this variable to "false" in order to use the JMT trajectory
 
           if (takeSpline == false) {
             if (previous_path_x.size()==0 && counter == 0) {
+              // this is the starting sequence
               next_vals = trajWIP.getNextPathTrajectory(car_s, car_d,lane , 0, ref_vel, 2);
               next_vals = trajWIP.mergeTrajectories(previous_path_x, previous_path_y, end_path_s, end_path_d, next_vals);
             } else if (previous_path_x.size() < 25) {
+              // re-generate new points if only 23 are available
+
+              // use 2 seconds for a trajectory, in case of a lane change take 3 seconds
               int time = 2;
               if (planner.stm_lane_change_completed() == false) {
                 time = 3;

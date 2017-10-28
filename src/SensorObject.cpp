@@ -105,12 +105,7 @@ void SensorObject::update(json j) {
     }
   }
 
-  Timer tmr;
-  double t = tmr.elapsed();
-  tmr.reset();
   this->calculatePredictions(this->predictionHorizonInSeconds);
-  t = tmr.elapsed();
-  //std::cout << "Time for calculating predictions in (ms) " <<  t/1e-6 << endl;
 }
 
 /**

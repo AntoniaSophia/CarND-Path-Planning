@@ -63,8 +63,8 @@ class BehaviorPlanner{
  
     bool isLaneChangeSafe(int lane);
 
-    double evaluateLane_Weight = 0.0;
-    double evaluateSafetyDistance_Weight = 10.0;
+    double evaluateLane_Weight = 1.0;
+    double evaluateSafetyDistance_Weight = 100.0;
     double evaluateSpeed_Weight = 1.0;
     double evaluateFrenet_d_Weight = 0.0;
 

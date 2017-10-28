@@ -34,7 +34,7 @@ using nlohmann::json;
  * 
  */
 EgoVehicle::EgoVehicle() {
-  this->id = -1; 
+  this->id = -1;
   this->speed_from_sim = -1;
 }
 
@@ -44,16 +44,9 @@ EgoVehicle::EgoVehicle() {
  * @return double 
  */
 double EgoVehicle::getSpeed() { 
-  // if (previous_path_x.size() > 2 && this->speed_from_sim > 10) {
-  //   double dx = previous_path_x[0]-previous_path_x[1];
-  //   double dy = previous_path_y[0]-previous_path_y[1];
-  //   return sqrt(pow(dx,2)+pow(dy,2));
-  // } else {
-  //   return this->speed_from_sim; 
-  // }
-
+  //Remark: sometimes speed from simulator is not reliable...
+  // TODO: fix this by cross-checking with x/y value history
   return this->speed_from_sim; 
-  
 }
 
 /**

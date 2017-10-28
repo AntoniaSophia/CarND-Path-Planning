@@ -41,13 +41,13 @@ public:
 
   void update(json j);
 
-  vector<double> getPrevious_path_x() { return previous_path_x; };
-  vector<double> getPrevious_path_y() { return previous_path_y; };
+  vector<double> getPrevious_path_x() { return previous_path_x; }
+  vector<double> getPrevious_path_y() { return previous_path_y; }
 
-  double getYawRad() { return yaw * M_PI / 180; };
-  double getYawDeg() { return yaw; };
-  double getEnd_Path_s() { return end_path_s; };
-  double getEnd_Path_d() { return end_path_d; };
+  double getYawRad() { return yaw * M_PI / 180; }
+  double getYawDeg() { return yaw; }
+  double getEnd_Path_s() { return end_path_s; }
+  double getEnd_Path_d() { return end_path_d; }
 
   vector<double> getPrediction(int second);
   void calculatePredictions(int predictionHorizon);
